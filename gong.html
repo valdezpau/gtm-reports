@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GTM Intelligence — Gong</title>
+  <style>
+    :root {
+      --p: #235FF6;
+      --s: #1e3a5f;
+      --on-p: #ffffff;
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --txt: #1a202c;
+      --muted: #718096;
+      --hyp: #d97706;
+      --green: #059669;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg); color: var(--txt); line-height: 1.6; }
+
+    /* HEADER */
+    .hdr { background: var(--p); color: var(--on-p); padding: 36px 56px;
+             display: flex; justify-content: space-between; align-items: center; }
+    .hdr h1 { font-size: 26px; font-weight: 800; letter-spacing: -.5px; }
+    .hdr .sub { font-size: 13px; opacity: .7; margin-top: 4px; }
+    .hdr-right { text-align: right; }
+    .logo-img { max-height: 44px; max-width: 150px; object-fit: contain;
+                  filter: brightness(0) invert(1); display: block; margin: 0 0 6px auto; }
+
+    /* LAYER BANNER */
+    .lbanner { background: var(--s); color: var(--on-p); padding: 14px 56px;
+                display: flex; align-items: center; gap: 14px; }
+    .lbadge { background: rgba(255,255,255,.18); border-radius: 20px;
+                padding: 3px 13px; font-size: 10px; font-weight: 800;
+                letter-spacing: 1.2px; text-transform: uppercase; }
+    .ltitle { font-size: 15px; font-weight: 600; }
+
+    /* LAYOUT */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 36px 56px; }
+    .card { background: var(--card); border: 1px solid var(--border);
+              border-radius: 12px; padding: 26px 30px; margin-bottom: 22px; }
+    .card-title { font-size: 11px; font-weight: 800; letter-spacing: 1px;
+                   text-transform: uppercase; color: var(--muted);
+                   border-bottom: 1px solid var(--border);
+                   padding-bottom: 12px; margin-bottom: 18px; }
+    .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 22px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .ov-item { background: var(--card); border: 1px solid var(--border);
+                border-radius: 10px; padding: 18px; }
+    .ov-label { font-size: 10px; text-transform: uppercase; letter-spacing: .8px;
+                  color: var(--muted); margin-bottom: 5px; }
+    .ov-val { font-size: 15px; font-weight: 700; }
+    .ov-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    /* USE CASE HERO */
+    .uc-hero { background: linear-gradient(135deg, var(--p) 0%, var(--s) 100%);
+                color: var(--on-p); border-radius: 12px; padding: 28px 32px;
+                margin-bottom: 22px; }
+    .uc-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+                opacity: .7; margin-bottom: 6px; }
+    .uc-stmt { font-size: 21px; font-weight: 800; line-height: 1.4; margin-bottom: 18px; }
+    .uc-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .uc-meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: .7px;
+                       opacity: .65; margin-bottom: 4px; }
+    .uc-meta p { font-size: 13px; opacity: .88; }
+
+    /* BADGES */
+    .badge { display: inline-block; border-radius: 4px; font-size: 9px; font-weight: 800;
+               letter-spacing: .8px; text-transform: uppercase; padding: 2px 7px; margin-right: 7px; }
+    .hyp { background: #fef3c7; color: #92400e; }
+    .motion { background: var(--p); color: var(--on-p); border-radius: 20px;
+                font-size: 12px; font-weight: 700; padding: 5px 15px;
+                display: inline-block; margin-bottom: 14px; }
+
+    /* GAPS */
+    .gap { border: 1px solid #fde68a; background: #fffbeb; border-radius: 8px;
+             padding: 14px; margin-bottom: 10px; }
+    .gap-head { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; font-size: 14px; }
+    .gap-ev { font-size: 12px; color: var(--muted); }
+
+    /* PRIORITIES */
+    .prio { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .prio:last-child { border-bottom: none; }
+    .prio-num { background: var(--p); color: var(--on-p); width: 34px; height: 34px;
+                  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+                  font-weight: 800; font-size: 12px; flex-shrink: 0; }
+    .prio-action { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+    .prio-why { font-size: 13px; color: var(--muted); }
+
+    /* TAGS */
+    .tag { display: inline-block; background: #f1f5f9; color: var(--txt);
+             border-radius: 6px; padding: 3px 9px; font-size: 12px; margin: 2px; }
+    .comp-tag { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .kpi-tag { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
+    /* FRAMING BOX */
+    .framing { background: #f8fafc; border-left: 4px solid var(--p); border-radius: 0 8px 8px 0;
+                padding: 14px 18px; font-size: 14px; line-height: 1.65; margin-bottom: 18px; }
+
+    /* JOURNEY MAP */
+    .journey { display: flex; border: 1px solid var(--border); border-radius: 12px;
+                overflow: hidden; overflow-x: auto; margin-bottom: 22px; }
+    .journey-stage { flex: 1; min-width: 175px; border-right: 1px solid var(--border); }
+    .journey-stage:last-child { border-right: none; }
+    .stage-head { background: var(--p); color: var(--on-p); padding: 11px 14px;
+                   font-size: 10px; font-weight: 800; text-align: center;
+                   letter-spacing: .8px; text-transform: uppercase; }
+    .stage-body { padding: 14px; }
+    .stage-label { font-size: 10px; text-transform: uppercase; letter-spacing: .6px;
+                    color: var(--muted); margin: 10px 0 4px; font-weight: 700; }
+    .stage-body ul { list-style: none; padding: 0; }
+    .stage-body ul li { font-size: 12px; padding: 2px 0; }
+    .stage-body ul li::before { content: "\2192  "; color: var(--p); }
+    .moments .tag { font-size: 11px; }
+    .seller-opp { font-size: 12px; background: #eff6ff; border-left: 3px solid var(--p);
+                   padding: 8px 10px; border-radius: 0 4px 4px 0; margin-top: 10px; }
+    .seller-opp strong { display: block; font-size: 10px; text-transform: uppercase;
+                          letter-spacing: .5px; color: var(--muted); margin-bottom: 3px; }
+
+    /* VALUE CALCULATOR */
+    .lever { display: flex; gap: 14px; border: 1px solid var(--border);
+               border-radius: 10px; padding: 18px; margin-bottom: 10px; }
+    .lever-num { background: var(--p); color: var(--on-p); width: 30px; height: 30px;
+                  border-radius: 50%; display: flex; align-items: center;
+                  justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+    .lever-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .lever-desc { font-size: 13px; color: var(--muted); margin-bottom: 7px; }
+    .lever-assumption { font-size: 12px; margin-bottom: 5px; }
+    .lever-est { font-size: 14px; font-weight: 700; color: var(--green); }
+    .value-total { background: #f0fdf4; border: 2px solid #a7f3d0; border-radius: 10px;
+                    padding: 18px 22px; margin-top: 14px; display: flex;
+                    justify-content: space-between; align-items: center; }
+    .vt-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .vt-number { font-size: 24px; font-weight: 900; color: var(--green); }
+    .vc-caveat { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 10px; }
+    .vc-uc { background: #fffbeb; border-left: 4px solid var(--hyp); border-radius: 0 8px 8px 0;
+               padding: 12px 16px; font-size: 13px; margin-bottom: 16px; }
+
+    /* CHAMPION TEASER */
+    .champ { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+               color: #fff; border-radius: 12px; padding: 32px; margin-bottom: 22px;
+               position: relative; overflow: hidden; }
+    .champ::after { content: ''; position: absolute; top: -60px; right: -60px;
+                     width: 220px; height: 220px; background: rgba(255,255,255,.04);
+                     border-radius: 50%; pointer-events: none; }
+    .champ-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;
+                    opacity: .55; margin-bottom: 8px; }
+    .champ-headline { font-size: 22px; font-weight: 900; margin-bottom: 12px; }
+    .champ-summary { font-size: 14px; opacity: .82; line-height: 1.65; margin-bottom: 18px; }
+    .champ-kpis { margin-bottom: 22px; }
+    .champ-kpis .tag { background: rgba(255,255,255,.12); color: #e0e7ff;
+                         border: 1px solid rgba(255,255,255,.2); }
+    .run-live { display: inline-block; background: #fff; color: #1e1b4b;
+                  padding: 11px 22px; border-radius: 8px; font-weight: 800;
+                  font-size: 13px; cursor: default; }
+
+    /* QUESTIONS */
+    .q-list { list-style: none; padding: 0; }
+    .q-list li { padding: 10px 0; border-bottom: 1px solid var(--border);
+                  font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+    .q-list li:last-child { border-bottom: none; }
+    .q-dot { background: #fef3c7; color: #92400e; width: 22px; height: 22px;
+               border-radius: 50%; display: flex; align-items: center; justify-content: center;
+               font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+
+    /* MISC */
+    hr.div { border: none; border-top: 2px solid var(--p); opacity: .1; margin: 38px 0; }
+    .disc { background: #eff6ff; border-left: 4px solid var(--p); padding: 12px 16px;
+              border-radius: 0 8px 8px 0; font-size: 13px; }
+    ul { padding-left: 18px; }
+    ul li { margin-bottom: 5px; font-size: 14px; }
+
+    /* FOOTER */
+    .footer { background: var(--p); color: var(--on-p); padding: 22px 56px;
+                text-align: center; font-size: 12px; }
+    .footer strong { display: block; margin-bottom: 3px; opacity: .9; font-size: 13px; }
+    .footer span { opacity: .55; }
+
+    @media (max-width: 720px) {
+      .wrap { padding: 20px; }
+      .hdr { padding: 22px 20px; flex-direction: column; gap: 12px; }
+      .grid3 { grid-template-columns: 1fr 1fr; }
+      .grid2 { grid-template-columns: 1fr; }
+      .journey { flex-direction: column; }
+      .lbanner { padding: 12px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <h1>GTM Intelligence Report</h1>
+    <div class="sub">Powered by Paulina&rsquo;s MMP Framework &middot; March 20, 2026</div>
+  </div>
+  <div class="hdr-right">
+    <img src="https://cdn.sanity.io/images/ww20clc6/production/55ee9ab9e223db26ba7a40f75e2f995eef5990cd-191x30.svg?rect=40,0,113,30&w=120&h=32&fit=max&auto=format" class="logo-img" alt="Gong logo">
+    <div style="font-size:13px;font-weight:700;margin-bottom:4px">Gong</div>
+    <a href="https://www.gong.io" style="color:rgba(255,255,255,.65);font-size:12px">https://www.gong.io</a>
+  </div>
+</div>
+
+<!-- LAYER 1 BANNER -->
+<div class="lbanner">
+  <span class="lbadge">Layer 1</span>
+  <span class="ltitle">GTM Diagnosis &mdash; Gong</span>
+</div>
+
+<div class="wrap">
+
+  <!-- USE CASE HERO -->
+  <div class="uc-hero">
+    <div class="uc-lbl">Use Case &middot; One Sentence</div>
+    <div class="uc-stmt">Gong captures every customer interaction across calls, emails, and meetings, then uses AI to surface insights, automate workflows, and power revenue teams to forecast accurately, coach effectively, and close more deals.</div>
+    <div class="uc-meta">
+      <div>
+        <div class="uc-meta-label">Job To Be Done</div>
+        <p>When revenue leaders need to understand what's actually happening in their pipeline — beyond what reps self-report in the CRM — they need a system that captures ground truth from customer interactions and turns it into actionable intelligence that drives consistent execution across the entire GTM org.</p>
+      </div>
+      <div>
+        <div class="uc-meta-label">Value Thesis</div>
+        <p>Gong is the only Revenue AI Operating System that unifies the complete customer interaction record — across every channel, every deal stage, and every team — into a proprietary Revenue Graph that powers AI agents, insights, and workflows purpose-built for revenue teams. In a market where CRM vendors and communication platforms are bolting on AI features as afterthoughts, Gong's moat is the cross-platform, interaction-level data layer trained on billions of real customer conversations. The strategic bet is that the company that owns the 'revenue graph' — the ground truth of what customers actually say, feel, and do — will become the system of record for revenue execution, displacing both legacy CRM reporting and fragmented point solutions. At 5,000+ customers and a $7.25B valuation, the question is no longer product-market fit — it's whether Gong can convert its conversation intelligence dominance into a multi-product platform before incumbents close the gap with native AI.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW GRID -->
+  <div class="grid3">
+    <div class="ov-item">
+      <div class="ov-label">Funding Stage</div>
+      <div class="ov-val">Series E (Late-stage private)</div>
+      <div class="ov-sub">~$584M total raised; last round was a $250M Series E in June 2021 at a $7.25B valuation. Investors include Sequoia Capital, Coatue Management, Tiger Global, Franklin Templeton, and Battery Ventures.</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-label">Team Size</div>
+      <div class="ov-val">~1,200–1,400 employees across 8 global offices (San Francisco, Lehi UT, Chicago, New York, Austin, Singapore, Tel Aviv, Dublin)</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-label">Founded</div>
+      <div class="ov-val">2015</div>
+    </div>
+  </div>
+
+  <!-- GTM ANALYSIS -->
+  <div class="card">
+    <div class="card-title">GTM Motion Analysis</div>
+    <div class="motion">Sales-Led</div>
+    <div class="grid2">
+      <div>
+        <div class="ov-label" style="margin-bottom:6px">ICP</div>
+        <p style="font-size:14px">Mid-market to Enterprise B2B revenue organizations (50–10,000+ reps) — specifically CROs, VPs of Sales, Revenue Operations leaders, and Sales Enablement leaders at companies with complex, multi-stakeholder deal cycles. Sweet spot is companies with 50+ sellers, in Technology, Financial Services, Healthcare, and Manufacturing verticals. Marquee customers include ADP, Google, HubSpot, LinkedIn, Uber for Business, Docusign, PayPal, Wayfair, Twilio, Procore, and Paycor.</p>
+        <div class="ov-label" style="margin-top:16px;margin-bottom:6px">Pricing Model</div>
+        <p style="font-size:14px">Opaque, enterprise-grade pricing: per-user license fee plus a platform fee based on total user count. No self-serve pricing published — requires a custom quote via sales conversation. Tiered by team size (1–50, 51–1,000, 1,001–9,999, 10,000+). Free integrations included. Estimated ACV ranges from ~$30K–$50K for mid-market to $500K+ for large enterprise deals.</p>
+        <div class="ov-label" style="margin-top:16px;margin-bottom:8px">Competitors</div>
+        <div><span class="tag comp-tag">Clari (revenue operations & forecasting)</span><span class="tag comp-tag">Chorus.ai (acquired by ZoomInfo — conversation intelligence)</span><span class="tag comp-tag">Salesloft (acquired by Vista Equity — sales engagement + conversation intelligence)</span><span class="tag comp-tag">Outreach (sales engagement expanding into revenue intelligence)</span><span class="tag comp-tag">Microsoft Copilot for Sales (native AI assistant for Dynamics/Teams)</span><span class="tag comp-tag">Salesforce Einstein Conversation Insights (native SFDC)</span><span class="tag comp-tag">Revenue.io (real-time guidance)</span><span class="tag comp-tag">Aviso AI (AI-powered forecasting)</span><span class="tag comp-tag">People.ai (activity capture & revenue intelligence)</span><span class="tag comp-tag">Mindtickle (enablement + conversation intelligence)</span></div>
+      </div>
+      <div>
+        <div class="ov-label" style="margin-bottom:8px">GTM Strengths</div>
+        <ul><li>Category creator and market definer — 'Revenue Intelligence' as a term is synonymous with Gong</li><li>Extraordinary brand and content engine — Gong Labs is arguably the most influential data-driven sales content franchise in B2B, generating massive organic and social reach</li><li>5,000+ customers including multiple Fortune 10 logos — social proof moat is enormous</li><li>6,200+ G2 reviews with 4.8/5 average — best-in-class user NPS / sentiment across the category</li><li>Named Leader in both Forrester Wave and 2025 Gartner Magic Quadrant for Revenue Action Orchestration</li><li>Deep product platform expanding from conversation intelligence into full Revenue AI OS (Engage, Forecast, Enable, Agents) — increasing wallet share per account</li><li>250+ integrations via Gong Collective and GSI ecosystem scaling fivefold — reducing risk of displacement</li><li>Strong executive team with deep enterprise GTM experience (ex-Qualtrics, Microsoft, Pure Storage, Google)</li><li>Proprietary data asset (Gong Revenue Graph trained on billions of interactions) creates compounding AI advantage</li></ul>
+        <div class="ov-label" style="margin-top:16px;margin-bottom:6px">Core Pains Addressed</div>
+        <ul><li>CRM data is unreliable because it depends on reps manually logging activities — revenue leaders are making forecasting and coaching decisions on incomplete or biased information</li><li>Sales managers spend hours listening to individual calls instead of getting AI-surfaced insights on deal risk, competitive mentions, and coaching opportunities across their entire book</li><li>Revenue teams operate in silos — marketing, sales, CS, and enablement each have fragmented views of the customer, leading to misaligned handoffs and missed expansion opportunities</li><li>Forecasting is more gut feel than science — without interaction-level data, pipeline reviews are opinion-driven theater rather than evidence-based strategy sessions</li><li>New rep ramp time is too long because institutional knowledge lives in top performers' heads rather than being captured, analyzed, and distributed systematically</li><li>Enterprises are drowning in point solutions (engagement, forecasting, enablement, conversation intelligence) that don't share data, creating integration tax and blind spots</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDENTIFIED GAPS -->
+  <div class="card">
+    <div class="card-title">Identified GTM Gaps &middot; All Labeled as Hypotheses</div>
+    
+        <div class="gap">
+          <div class="gap-head"><span class="badge hyp">HYPOTHESIS</span><strong>No PLG entry point or self-serve motion — the entire funnel is gated behind 'Book a Demo' and custom quotes, which limits velocity in the SMB and mid-market segments where faster-moving competitors (Salesloft, Outreach) offer free trials or transparent pricing</strong></div>
+          <div class="gap-ev">Evidence: Pricing page requires a form fill and custom proposal for every prospect, with zero published pricing or free tier. Every CTA on the site routes to 'Book a demo' or 'Request a quote.'</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head"><span class="badge hyp">HYPOTHESIS</span><strong>Platform expansion risks the 'too many things' problem — moving from focused conversation intelligence to a full Revenue AI OS (Engage, Forecast, Enable, Agents) in parallel could dilute positioning and confuse buyers who still associate Gong with call recording/coaching</strong></div>
+          <div class="gap-ev">Evidence: Homepage messaging has shifted from 'Revenue Intelligence' to 'Revenue AI OS' with six distinct product pillars. The narrative now competes with sales engagement (Salesloft/Outreach), forecasting (Clari), and enablement (Mindtickle) simultaneously, potentially fragmenting ICP clarity.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head"><span class="badge hyp">HYPOTHESIS</span><strong>Potential margin pressure and path-to-profitability questions at $7.25B valuation — no IPO since 2021, and the company has been operating in a compressed-multiple environment for late-stage SaaS for 4+ years</strong></div>
+          <div class="gap-ev">Evidence: Last funding was June 2021 at peak SaaS multiples. No subsequent public fundraise or IPO filing. Hiring a CFO from Pure Storage (Tim Ritters) and recent emphasis on 'consolidation' and 'measurable AI impact' suggests a focus on unit economics and IPO readiness.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head"><span class="badge hyp">HYPOTHESIS</span><strong>Platform consolidation threat from incumbents — Salesforce (Einstein), Microsoft (Copilot for Sales), and ZoomInfo (Chorus) are embedding competing capabilities natively, potentially undercutting Gong's value as a standalone purchase</strong></div>
+          <div class="gap-ev">Evidence: Gong prominently highlights Microsoft Copilot integration as a partner play rather than competitor. However, enterprise buyers increasingly question the need for a separate revenue intelligence layer when their CRM and communication platforms are building native AI capabilities.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head"><span class="badge hyp">HYPOTHESIS</span><strong>Downmarket vulnerability — with no transparent pricing, no free tier, and an enterprise-focused GTM motion, Gong is susceptible to losing the 'land' motion in companies with 10–50 reps to cheaper or more accessible alternatives like Fireflies.ai, Otter.ai, or Fathom</strong></div>
+          <div class="gap-ev">Evidence: Pricing tiers start at 1–50 users but still require a custom quote. No evidence of a self-serve or low-cost entry product for small teams. Competitors like Fathom offer free AI note-taking that can expand into Gong's territory.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head"><span class="badge hyp">HYPOTHESIS</span><strong>Geographic expansion beyond US is in early stages — while offices exist in Singapore, Dublin, and Tel Aviv, the vast majority of referenced customers and case studies are North American enterprises</strong></div>
+          <div class="gap-ev">Evidence: Customer stories page and press releases overwhelmingly feature US-based logos. EMEA and APAC presence appears to be more recent (Dublin, Singapore offices) with fewer local references.</div>
+        </div>
+  </div>
+
+  <!-- 90-DAY PLAN -->
+  <div class="card">
+    <div class="card-title">Paulina&rsquo;s 90-Day Plan</div>
+    <div class="framing">Gong is a category-defining, late-stage company (~$7.25B valuation) at a critical inflection point: transitioning from 'conversation intelligence leader' to 'Revenue AI OS platform.' The GTM challenge is not demand generation or brand awareness — Gong has those in spades. The real challenge is executing a multi-product platform expansion while defending against both incumbents bundling AI natively and point solutions nibbling at the edges. The 90-day plan should focus on accelerating platform attach rates, sharpening the enterprise expansion playbook, and de-risking the transition from single-product hero to multi-product platform.</div>
+    
+            <div class="prio">
+              <div class="prio-num">P1</div>
+              <div>
+                <div class="prio-action">Launch a 'Revenue AI OS Maturity Assessment' — a structured sales methodology and supporting content framework that segments prospects/customers into tiers (Point Solution → Platform → AI OS) and maps each to a specific expansion path with clear ROI milestones. Equip every AE and CSM with this assessment.</div>
+                <div class="prio-why">The biggest GTM risk right now is that 80%+ of Gong's 5,000 customers still think of Gong as 'the call recording tool.' Expanding wallet share from Engage → Forecast → Enable → Agents requires a consultative, land-and-expand methodology that ties each product to a measurable business outcome. The newly hired Revenue Architects team and the Customer Office restructure signal Gong knows this — but the field needs a codified playbook, not just a new org chart.</div>
+              </div>
+            </div>
+            <div class="prio">
+              <div class="prio-num">P2</div>
+              <div>
+                <div class="prio-action">Build a 'Gong vs. Native AI' competitive battle card and displacement program specifically targeting the Microsoft Copilot for Sales and Salesforce Einstein narratives. Position Gong as the 'cross-platform revenue graph' that sits above any single CRM or communication tool.</div>
+                <div class="prio-why">The #1 objection in enterprise deals is now 'Why do I need Gong when my CRM/Teams/Zoom is adding AI?' Gong's moat is the Revenue Graph — the cross-platform, cross-channel data layer that no single vendor can replicate. But if this narrative isn't crisp, specific, and armed with quantified proof points, it will be lost in procurement committees. This needs to be the core competitive positioning for the next 12 months.</div>
+              </div>
+            </div>
+            <div class="prio">
+              <div class="prio-num">P3</div>
+              <div>
+                <div class="prio-action">Introduce a 'Gong Essentials' tier with published pricing for teams of 10–50 — a simplified, self-serve entry point that includes core conversation intelligence + basic AI summaries, designed to feed the enterprise pipeline from below.</div>
+                <div class="prio-why">Gong's most dangerous long-term threat isn't Clari or Salesloft — it's the generation of sales leaders who start their careers using free/cheap tools like Fathom, Fireflies, or native Zoom AI. If Gong doesn't own the 'first tool a sales team buys' motion, it risks becoming a 'tool large enterprises switch to' rather than a 'platform teams grow up with.' A transparent, accessible entry tier would also dramatically reduce CAC for the lower mid-market segment.</div>
+              </div>
+            </div>
+    <div class="grid2" style="margin-top:20px">
+      <div>
+        <div class="ov-label" style="margin-bottom:10px">Quick Wins</div>
+        <ul><li>Audit net revenue retention and product attach rates across the 5,000 customer base — identify which customers only use conversation intelligence vs. multi-product. This data will size the expansion revenue opportunity and prioritize the maturity assessment rollout.</li><li>Create a 'Gong Revenue Graph' explainer video series (3 min each) that makes the proprietary data moat tangible for buyers — this is the single most differentiated asset Gong has, but it's currently buried in marketing jargon.</li><li>Launch a 'Consolidation Calculator' ROI tool showing enterprises how replacing Salesloft + Clari + Chorus + Mindtickle with Gong Revenue AI OS reduces total cost, integrations, and vendor risk — directly targeting the CFO persona alongside the CRO.</li><li>Publish 5 enterprise case studies that quantify multi-product platform value (not just call recording ROI) — the customer stories page currently lacks specificity on platform-wide impact metrics.</li><li>Stand up a competitive intelligence Slack channel fed by Gong's own product (eat your own cooking) — every competitive mention in prospect calls should auto-surface to product marketing within 24 hours.</li></ul>
+      </div>
+      <div>
+        <div class="ov-label" style="margin-bottom:10px">Validate First</div>
+        <ul><li>What is the current product attach rate? What % of the 5,000 customers use 2+ Gong products (Engage, Forecast, Enable) vs. just conversation intelligence?</li><li>What does the competitive win/loss data show? Is Gong losing more deals to 'do nothing / use native AI' than to named competitors?</li><li>What is the current net revenue retention rate, and how has it trended since the Revenue AI OS repositioning?</li><li>Is there internal alignment on whether Gong should pursue a PLG or 'Gong Essentials' motion for smaller teams, or is the strategic decision to remain enterprise-only?</li><li>How are enterprise procurement cycles changing? Are deals getting bundled into larger 'AI platform' evaluations rather than standalone revenue intelligence purchases?</li><li>What is the current CAC payback period, and has it lengthened as Gong moved upmarket?</li><li>How is the GSI/partner channel performing? What % of new enterprise revenue is partner-sourced or partner-influenced?</li><li>Is there an IPO timeline influencing GTM investment decisions (growth vs. profitability trade-offs)?</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+</div>
+
+<!-- LAYER 2 BANNER -->
+<div class="lbanner">
+  <span class="lbadge">Layer 2</span>
+  <span class="ltitle">Sales Prep Demo &mdash; Gong &rarr; Docusign</span>
+</div>
+
+<div class="wrap">
+
+  <!-- PROSPECT PROFILE -->
+  <div class="card">
+    <div class="card-title">Prospect Profile</div>
+    <div class="grid2">
+      <div>
+        <h2 style="font-size:22px;margin-bottom:6px">Docusign</h2>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Enterprise Software / Intelligent Agreement Management (IAM) &middot; ~6,838 employees; $2.98B annual revenue (FY2025); publicly traded (NASDAQ: DOCU); 1.5M+ paying customers in 180+ countries</p>
+        <p style="font-size:14px">Docusign is the global leader in electronic signature and the pioneer of Intelligent Agreement Management (IAM). Under CEO Allan Thygesen (ex-Google, since Oct 2022), the company is executing a major strategic pivot from a single-product eSignature company to a platform play with IAM Core, IAM for Sales, IAM for Customer Experience, CLM, Navigator, and Maestro. This platform expansion means Docusign's own sales org must now sell a multi-product, higher-ACV portfolio into new buyer personas (Sales, Legal, IT, Procurement) — dramatically increasing deal complexity. Docusign already selected Gong Revenue AI OS, making this an expansion/deepening opportunity.</p>
+      </div>
+      <div>
+        <div class="ov-label" style="margin-bottom:8px">Discovery Angle</div>
+        <div class="disc">The entire conversation should be anchored to one existential question for Docusign: 'Is your sales org actually executing the IAM pivot in live customer conversations, or are reps defaulting to selling what they know?' Gong is the only way to answer that question with data instead of anecdotes. Frame the expansion not as buying more Gong licenses, but as instrumenting Docusign's most important strategic bet with the intelligence layer it needs to succeed. Every feature — Enable for coaching, Forecast for new deal types, Engage for multi-threaded outreach, Agents for automation — maps directly to a specific IAM selling challenge. The discovery should surface the gap between Docusign's IAM ambition and their current ability to measure and drive rep behavior change at scale. That gap is the urgency.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER JOURNEY MAP -->
+  <div class="card-title" style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px">
+    Customer Journey Map
+  </div>
+  <div class="journey">
+    
+        <div class="journey-stage">
+          <div class="stage-head">Awareness</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Docusign GTM leaders recognize friction in transitioning reps from single-product (eSignature) selling to multi-product IAM platform selling</li><li>Revenue leadership evaluates whether current conversation intelligence and forecasting tools are sufficient for the new GTM complexity</li><li>CRO/VP Sales sees inconsistent messaging across teams during IAM launch campaigns</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Sales reps default to selling eSignature because it is familiar, missing IAM upsell opportunities</li><li>Lack of visibility into how reps are positioning the new IAM product line in live conversations</li><li>Difficulty diagnosing why IAM pipeline is converting at a lower rate than legacy eSignature deals</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">Board-level pressure to show IAM adoption metrics and prove the platform pivot is working</span><span class="tag">Allan Thygesen's strategic mandate to transform GTM for multi-product selling</span></div>
+            <div class="seller-opp"><strong>Seller opportunity:</strong> Position Gong expansion as the backbone of Docusign's IAM GTM transformation — the only tool that can show, in real-time, whether reps are executing the new multi-product playbook in actual customer conversations.</div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Consideration</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Revenue Ops and Sales Enablement teams compare Gong's expanded capabilities (Engage, Enable, Forecast, Agents) against alternative point solutions</li><li>Docusign evaluates consolidating sales tech stack around Gong to reduce vendor sprawl</li><li>Champions internally circulate Gong usage data showing adoption gaps and ROI of current deployment</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Multiple point solutions for engagement, coaching, and forecasting create data silos and fragmented workflows</li><li>Enablement team struggles to measure whether new IAM training is translating to real behavior change on calls</li><li>Forecast accuracy suffers during product line transitions — models trained on eSignature cycles don't map to more complex, multi-stakeholder IAM deals</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">Budget cycle alignment — Docusign's fiscal year ends January 31, so Q3/Q4 (Aug–Jan) is planning season</span><span class="tag">Internal evidence from current Gong deployment showing measurable lift that justifies expansion business case</span></div>
+            <div class="seller-opp"><strong>Seller opportunity:</strong> Deliver a compelling consolidation narrative: show how expanding from conversation intelligence into Gong Engage + Enable + Forecast + Agents eliminates 3–4 point tools, creates a unified Revenue AI layer, and directly accelerates the IAM selling motion Docusign's leadership is betting the company on.</div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Decision</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Multi-threaded deal involving CRO, VP Revenue Operations, VP Sales Enablement, and potentially CFO/Procurement</li><li>Docusign procurement team evaluates total cost of ownership: Gong expansion vs. maintaining separate tools</li><li>Security and IT review for expanded data access (email, engagement, forecasting data)</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Procurement pressure to show cost savings or clear ROI justification for expanding an existing vendor's footprint</li><li>Change management concerns: will reps actually adopt new Gong modules, or is this shelfware risk?</li><li>Integration complexity with Docusign's existing Salesforce CRM ecosystem and 400+ integrations infrastructure</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">Executive sponsor (CRO or VP Sales) needs an internal champion pack to justify expansion to CFO</span><span class="tag">Competitive evaluation window — Docusign may benchmark against Clari (forecasting), Outreach/Salesloft (engagement)</span></div>
+            <div class="seller-opp"><strong>Seller opportunity:</strong> Arm the champion with a ready-made business case that connects Gong expansion directly to Docusign's #1 strategic priority (IAM platform success), with conservative ROI numbers the CFO can validate. Differentiate on the unified Revenue Graph — no competitor connects conversation data + engagement + forecasting in a single AI layer.</div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Onboarding</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Phased rollout: start with highest-impact team (likely IAM-focused enterprise sales pod) before company-wide expansion</li><li>Gong Enable configured with IAM-specific competency frameworks and talk tracks</li><li>Gong Forecast calibrated to new IAM deal stages, cycle lengths, and multi-product pipeline structure</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Risk of low adoption if rollout feels like 'another tool' rather than a natural workflow upgrade</li><li>Data migration and historical context from legacy tools needs to be preserved</li><li>Sales managers need coaching on how to use Gong Enable insights to drive IAM behavior change</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">First 30-day adoption metrics — if power users emerge and share wins, organic momentum builds</span><span class="tag">First forecast cycle run through Gong Forecast showing improved accuracy vs. previous method</span></div>
+            <div class="seller-opp"><strong>Seller opportunity:</strong> Co-design the rollout plan with Docusign's Rev Ops team. Create a 'quick wins in 30 days' playbook tied to IAM pipeline metrics they already track. This builds the reference story for the broader Gong customer base.</div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Expansion</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Extend Gong deployment from sales to post-sales (Customer Success, Renewals) to capture full agreement lifecycle insights</li><li>Activate Gong Agents for automated pipeline hygiene, follow-ups, and enablement triggers across all revenue teams</li><li>Docusign becomes a flagship reference customer and case study for Gong's enterprise narrative</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Post-sales teams (renewals, CS) operating in the dark on what was promised during sales conversations — handoff friction</li><li>Scaling IAM adoption insights from one sales team to 6,800+ person org requires robust analytics and governance</li><li>Proving compounding ROI year-over-year as Gong footprint grows</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">Annual business review showing measurable impact on IAM attach rate, deal sizes, and forecast accuracy</span><span class="tag">Docusign leadership citing Gong as a key enabler in earnings call or investor day narrative</span></div>
+            <div class="seller-opp"><strong>Seller opportunity:</strong> Position the long-term partnership: Gong as the AI layer powering Docusign's entire revenue lifecycle, from first touch to renewal. Propose a joint innovation partnership where Docusign's scale helps shape Gong's product roadmap for multi-product enterprise sellers.</div>
+          </div>
+        </div>
+  </div>
+
+  <!-- VALUE CALCULATOR -->
+  <div class="card">
+    <div class="card-title">Value Calculator &middot; 3 Levers</div>
+    <div class="vc-uc"><strong>Use Case:</strong> Gong enables Docusign's revenue organization to accelerate its strategic pivot to multi-product IAM platform selling by providing AI-powered visibility into rep behavior, coaching at scale, accurate forecasting for new deal types, and automated workflows — all unified in a single Revenue AI layer that replaces fragmented point solutions.</div>
+    
+        <div class="lever">
+          <div class="lever-num">1</div>
+          <div class="lever-body">
+            <div class="lever-name">IAM Attach Rate Acceleration</div>
+            <div class="lever-desc">Gong Enable identifies which talk tracks, discovery questions, and competitive positioning are most effective at converting eSignature-only conversations into multi-product IAM deals. Reps get real-time guidance on when and how to introduce IAM products.</div>
+            <div class="lever-assumption"><span class="badge hyp">HYPOTHESIS</span>Docusign has ~800–1,200 quota-carrying sellers. If IAM attach rate on new deals increases from an estimated 15% to 20% due to better coaching visibility, and average IAM deal premium is $30K–$50K incremental ACV, the lift is significant.</div>
+            <div class="lever-est">$4.8M–$12M incremental annual ARR from improved IAM attach rate (800 reps × 20 deals/yr × 5% lift × $30K–$50K premium × 20% attribution to Gong)</div>
+          </div>
+        </div>
+        <div class="lever">
+          <div class="lever-num">2</div>
+          <div class="lever-body">
+            <div class="lever-name">Forecast Accuracy Improvement for New Product Lines</div>
+            <div class="lever-desc">Gong Forecast uses actual deal signals (not rep gut feel) to improve pipeline call accuracy during the volatile IAM transition period when historical benchmarks don't exist.</div>
+            <div class="lever-assumption"><span class="badge hyp">HYPOTHESIS</span>Enterprise SaaS companies report 10–20% forecast error rates. Reducing error by even 3–5 percentage points on a $3B revenue base prevents significant over/under-investment in resources each quarter.</div>
+            <div class="lever-est">$9M–$15M in avoided revenue leakage and improved resource allocation annually (3–5% accuracy improvement on $3B revenue base × operational efficiency multiplier)</div>
+          </div>
+        </div>
+        <div class="lever">
+          <div class="lever-num">3</div>
+          <div class="lever-body">
+            <div class="lever-name">Sales Tech Stack Consolidation</div>
+            <div class="lever-desc">Expanding Gong (Engage + Enable + Forecast + Agents) replaces 2–4 point solutions (standalone engagement tool, coaching platform, separate forecasting tool, manual workflow automation), reducing licensing costs, integration overhead, and admin burden.</div>
+            <div class="lever-assumption"><span class="badge hyp">HYPOTHESIS</span>Estimated $500K–$1.5M/year in redundant tool spend for a sales org of Docusign's size, plus 1–2 FTE equivalent in Rev Ops time managing integrations.</div>
+            <div class="lever-est">$800K–$2M annual savings in tool consolidation and operational overhead</div>
+          </div>
+        </div>
+        <div class="lever">
+          <div class="lever-num">4</div>
+          <div class="lever-body">
+            <div class="lever-name">New Rep Ramp Time Reduction</div>
+            <div class="lever-desc">Gong Enable provides AI-generated playbooks from top performers' actual IAM conversations, accelerating onboarding for new reps who have never sold the IAM portfolio.</div>
+            <div class="lever-assumption"><span class="badge hyp">HYPOTHESIS</span>If Docusign hires 150–250 reps/year and current ramp time is 6–9 months, reducing ramp by even 1 month through Gong-powered coaching yields measurable productivity gains.</div>
+            <div class="lever-est">$3M–$6M in accelerated productivity (200 new reps × 1 month faster ramp × $15K–$30K monthly quota attainment equivalent)</div>
+          </div>
+        </div>
+        <div class="lever">
+          <div class="lever-num">5</div>
+          <div class="lever-body">
+            <div class="lever-name">Deal Win Rate Improvement</div>
+            <div class="lever-desc">AI-powered deal intelligence from Gong surfaces risks earlier, identifies multi-threading gaps, and highlights competitive threats in IAM deals where Docusign faces new competitors (Adobe, Ironclad, Icertis).</div>
+            <div class="lever-assumption"><span class="badge hyp">HYPOTHESIS</span>A 2–3 percentage point win rate improvement on enterprise IAM deals with an average ACV of $100K+.</div>
+            <div class="lever-est">$5M–$10M incremental annual revenue (500 enterprise opportunities × 2.5% win rate lift × $100K avg ACV × 40% attribution to Gong insights)</div>
+          </div>
+        </div>
+    <div class="value-total">
+      <div>
+        <div class="vt-label">Estimated Value Range</div>
+        <div style="font-size:11px;color:var(--muted)">Conservative &middot; Assumption-Labeled</div>
+      </div>
+      <div class="vt-number">$22.6M–$45M annually in combined revenue acceleration, cost savings, and operational efficiency — representing 7x–15x estimated ROI on an expanded Gong deployment at enterprise scale</div>
+    </div>
+    <div class="vc-caveat">All figures are conservative estimates based on public benchmarks and Docusign's publicly reported financials ($2.98B revenue, ~6,838 employees). Actual figures depend on Docusign's internal sales org size, current IAM attach rates, existing tool stack, and forecast accuracy baselines. Validate all assumptions before presenting.</div>
+  </div>
+
+  <!-- CHAMPION PACK TEASER -->
+  <div class="champ">
+    <div class="champ-label">Champion Pack</div>
+    <div class="champ-headline">Powering Docusign's IAM Platform Bet: How Gong Revenue AI Turns a Product Launch into a Revenue Engine</div>
+    <div class="champ-summary">Docusign is executing the most significant strategic pivot in its 22-year history — transforming from a single-product eSignature leader into a multi-product Intelligent Agreement Management platform. This pivot demands that every seller in the organization change how they discover, position, demo, negotiate, and close. Gong Revenue AI OS is the only platform that provides real-time visibility into whether this behavior change is actually happening in customer conversations, while simultaneously improving forecast accuracy for unfamiliar deal types, automating rep workflows, and replacing fragmented point solutions. The estimated conservative annual value of an expanded Gong deployment is $22.6M–$45M across revenue acceleration, cost savings, and ramp efficiency — directly tied to Docusign's #1 strategic priority.</div>
+    <div class="champ-kpis">
+      <div class="champ-label" style="margin-bottom:8px">KPIs &amp; Success Metrics</div>
+      <span class="tag">IAM product attach rate on new and expansion deals</span><span class="tag">Forecast accuracy improvement (quarterly commit vs. actual variance)</span><span class="tag">New rep time-to-first-IAM-deal</span><span class="tag">Win rate on multi-product IAM opportunities vs. eSignature-only deals</span><span class="tag">Number of point tools consolidated</span><span class="tag">Sales engagement response rates via Gong Engage vs. prior tool</span><span class="tag">Coaching session frequency and correlation to rep performance</span><span class="tag">5+ percentage point increase in IAM attach rate within 2 quarters of Enable deployment</span><span class="tag">3–5 percentage point improvement in forecast accuracy within first full forecast cycle</span><span class="tag">30-day reduction in new rep ramp time to IAM quota attainment</span><span class="tag">2–3 percentage point lift in enterprise deal win rates within 3 quarters</span><span class="tag">Consolidation of 2+ sales tech vendors within 6 months of Gong expansion</span>
+    </div>
+    <div class="champ-label">Run this live in the workshop to co-build the full champion pack — bring Docusign's actual IAM attach rate, current forecast variance, rep headcount, ramp time benchmarks, and existing sales tech stack to pressure-test every assumption and build a CFO-ready business case in real time.</div>
+    <div style="margin-top:12px"><span class="run-live">&#9654; Run This Live in the Room</span></div>
+  </div>
+
+  <!-- QUESTIONS TO VALIDATE -->
+  <div class="card">
+    <div class="card-title">Questions to Validate in the Room</div>
+    <ul class="q-list">
+      <li><span class="q-dot">?</span>How many quota-carrying sellers does Docusign currently have, and how are they segmented (eSignature-only vs. IAM-focused vs. full portfolio)?</li><li><span class="q-dot">?</span>What is the current IAM attach rate on new deals, and what is the internal target for the next 4 quarters?</li><li><span class="q-dot">?</span>What is Docusign's current forecast accuracy, and has it deteriorated since introducing IAM products with different sales cycles?</li><li><span class="q-dot">?</span>Which Gong modules are currently deployed, and what is the adoption rate across the sales org?</li><li><span class="q-dot">?</span>What other tools in the sales tech stack overlap with Gong Engage, Enable, Forecast, or Agents (e.g., Outreach, Salesloft, Clari, Lessonly/Seismic)?</li><li><span class="q-dot">?</span>Who are the key decision-makers for a Gong expansion — is it the CRO, VP Rev Ops, VP Enablement, or a combination?</li><li><span class="q-dot">?</span>What does the internal enablement program for IAM selling look like today, and how do they currently measure whether training translates to behavior change?</li><li><span class="q-dot">?</span>How are new reps currently onboarded on the IAM product line, and what is the measured ramp time?</li><li><span class="q-dot">?</span>Is there executive-level sponsorship from Allan Thygesen's office for AI-powered revenue transformation?</li><li><span class="q-dot">?</span>What competitive tools has Docusign evaluated or been pitched recently (Clari, Salesloft, Outreach, etc.)?</li><li><span class="q-dot">?</span>How does Docusign's fiscal calendar (Jan 31 year-end) affect budget timing for an expansion deal?</li><li><span class="q-dot">?</span>What is the handoff process between sales and post-sales, and is there interest in extending Gong to CS/renewals teams?</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>PauliBot &middot; Powered by Paulina&rsquo;s MMP Framework</strong>
+  <span>All hypotheses must be validated in the room. ROI figures are conservative estimates. Generated March 20, 2026.</span>
+</div>
+
+</body>
+</html>
