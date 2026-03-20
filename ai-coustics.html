@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GTM Intelligence — ai-coustics</title>
+  
+  <style>
+    :root {
+      --p:        #0A0A0A;
+      --s:        #00E5A0;
+      --acc:      #00E5A0;
+      --on-p:     #ffffff;
+      --bg:       #0A0A0A;
+      --card:     #141414;
+      --txt:      #f0f0f5;
+      --muted:    rgba(240,240,245,0.50);
+      --border:   rgba(255,255,255,0.08);
+      --radius:   6px;
+      --h-weight: 700;
+
+      --on-s:       #0f172a;
+
+      --hyp-bg:     rgba(251,191,36,0.15);
+      --hyp-border: rgba(251,191,36,0.35);
+      --hyp-txt:    #fbbf24;
+      --hyp-bdg-bg: #78350f;
+      --hyp-bdg-t:  #fbbf24;
+      --gap-bg:     rgba(251,191,36,0.08);
+      --gap-border: rgba(251,191,36,0.25);
+      --green:      #34d399;
+      --green-bg:   rgba(52,211,153,0.10);
+      --green-bdr:  rgba(52,211,153,0.30);
+      --q-dot-bg:   rgba(251,191,36,0.18);
+      --q-dot-txt:  #fbbf24;
+      --framing-bg: rgba(255,255,255,0.04);
+      --disc-bg:    rgba(255,255,255,0.04);
+      --vc-uc-bg:   rgba(251,191,36,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "var(--framer-font-family)", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .hdr {
+      background: var(--p);
+      color: var(--on-p);
+      padding: 36px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hdr h1 {
+      font-size: 28px;
+      font-weight: var(--h-weight);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+    .hdr .sub {
+      font-size: 13px;
+      opacity: 0.65;
+      margin-top: 5px;
+      font-weight: 400;
+    }
+    .hdr-right { text-align: right; }
+    .logo-img {
+      max-height: 44px;
+      max-width: 160px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      display: block;
+      margin: 0 0 8px auto;
+    }
+    .logo-text {
+      font-size: 18px;
+      font-weight: var(--h-weight);
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+    .co-link {
+      color: var(--on-p);
+      opacity: 0.55;
+      font-size: 12px;
+      text-decoration: none;
+    }
+
+    /* ── LAYER BANNER ── */
+    .lbanner {
+      background: var(--s);
+      color: var(--on-s);
+      padding: 13px 60px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .lbadge {
+      background: rgba(0,0,0,0.15);
+      border-radius: 20px;
+      padding: 3px 13px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .ltitle { font-size: 14px; font-weight: 600; opacity: 0.9; }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 36px 60px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px 30px;
+      margin-bottom: 22px;
+    }
+    .card-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+    }
+    .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 22px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .ov-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .ov-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .ov-val { font-size: 15px; font-weight: 700; }
+    .ov-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    /* ── USE CASE HERO ── */
+    .uc-hero {
+      background: linear-gradient(135deg, var(--p) 0%, var(--s) 100%);
+      color: var(--on-p);
+      border-radius: var(--radius);
+      padding: 30px 34px;
+      margin-bottom: 22px;
+    }
+    .uc-lbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.65;
+      margin-bottom: 8px;
+    }
+    .uc-stmt {
+      font-size: 22px;
+      font-weight: var(--h-weight);
+      line-height: 1.35;
+      margin-bottom: 20px;
+    }
+    .uc-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .uc-meta-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      opacity: 0.6;
+      margin-bottom: 4px;
+    }
+    .uc-meta p { font-size: 13px; opacity: 0.85; line-height: 1.5; }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-block;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      margin-right: 8px;
+    }
+    .hyp { background: var(--hyp-bdg-bg); color: var(--hyp-bdg-t); }
+    .motion {
+      background: var(--p);
+      color: var(--on-p);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 16px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    /* ── GAPS ── */
+    .gap {
+      border: 1px solid var(--gap-border);
+      background: var(--gap-bg);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .gap-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .gap-ev { font-size: 12px; color: var(--muted); }
+
+    /* ── PRIORITIES ── */
+    .prio {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .prio:last-child { border-bottom: none; }
+    .prio-num {
+      background: var(--p);
+      color: var(--on-p);
+      width: 34px;
+      height: 34px;
+      border-radius: calc(var(--radius) - 2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .prio-action { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+    .prio-why { font-size: 13px; color: var(--muted); }
+
+    /* ── TAGS ── */
+    .tag {
+      display: inline-block;
+      background: var(--border);
+      color: var(--txt);
+      border-radius: calc(var(--radius) - 2px);
+      padding: 3px 9px;
+      font-size: 12px;
+      margin: 2px;
+      opacity: 0.9;
+    }
+    .comp-tag { background: rgba(220,38,38,0.12); color: #f87171; border: 1px solid rgba(220,38,38,0.25); }
+    .kpi-tag { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bdr); }
+
+    /* ── FRAMING / CALLOUTS ── */
+    .framing {
+      background: var(--framing-bg);
+      border-left: 4px solid var(--p);
+      border-radius: 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0;
+      padding: 14px 18px;
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    .disc {
+      background: var(--disc-bg);
+      border-left: 4px solid var(--acc);
+      border-radius: 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0;
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+
+    /* ── JOURNEY MAP ── */
+    .journey-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+    .journey {
+      display: flex;
+      overflow-x: auto;
+    }
+    .journey-stage {
+      flex: 1;
+      min-width: 178px;
+      border-right: 1px solid var(--border);
+    }
+    .journey-stage:last-child { border-right: none; }
+    .stage-head {
+      background: var(--p);
+      color: var(--on-p);
+      padding: 11px 14px;
+      font-size: 10px;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+    .stage-body { padding: 14px; background: var(--card); }
+    .stage-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      margin: 10px 0 4px;
+      font-weight: 700;
+    }
+    .stage-body ul { list-style: none; padding: 0; }
+    .stage-body ul li { font-size: 12px; padding: 2px 0; }
+    .stage-body ul li::before { content: "92 a0"; color: var(--acc); }
+    .moments .tag { font-size: 11px; }
+    .seller-opp {
+      font-size: 12px;
+      background: rgba(255,255,255,0.05);
+      border-left: 3px solid var(--acc);
+      padding: 8px 10px;
+      border-radius: 0 4px 4px 0;
+      margin-top: 10px;
+    }
+    .seller-opp strong {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    /* ── VALUE CALCULATOR ── */
+    .vc-uc {
+      background: var(--vc-uc-bg);
+      border-left: 4px solid var(--hyp-border);
+      border-radius: 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0;
+      padding: 12px 16px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      color: var(--hyp-txt);
+    }
+    .lever {
+      display: flex;
+      gap: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 10px;
+    }
+    .lever-num {
+      background: var(--acc);
+      color: #0f172a;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .lever-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .lever-desc { font-size: 13px; color: var(--muted); margin-bottom: 7px; }
+    .lever-assumption { font-size: 12px; margin-bottom: 5px; color: var(--txt); }
+    .lever-est { font-size: 14px; font-weight: 700; color: var(--green); }
+    .value-total {
+      background: var(--green-bg);
+      border: 2px solid var(--green-bdr);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .vt-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .vt-number { font-size: 24px; font-weight: 900; color: var(--green); }
+    .vc-caveat { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 10px; }
+
+    /* ── CHAMPION PACK TEASER ── */
+    .champ {
+      background: linear-gradient(135deg, #0A0A0A 0%, #00E5A0 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .champ::after {
+      content: '';
+      position: absolute;
+      top: -70px;
+      right: -70px;
+      width: 240px;
+      height: 240px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .champ-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      opacity: 0.5;
+      margin-bottom: 8px;
+    }
+    .champ-headline {
+      font-size: 24px;
+      font-weight: var(--h-weight);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .champ-summary {
+      font-size: 14px;
+      opacity: 0.82;
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .champ-kpis { margin-bottom: 22px; }
+    .champ-kpis .tag {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .run-live {
+      display: inline-block;
+      background: #ffffff;
+      color: #0f172a;
+      padding: 11px 22px;
+      border-radius: var(--radius);
+      font-weight: 800;
+      font-size: 13px;
+      cursor: default;
+    }
+
+    /* ── QUESTIONS ── */
+    .q-list { list-style: none; padding: 0; }
+    .q-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .q-list li:last-child { border-bottom: none; }
+    .q-dot {
+      background: var(--q-dot-bg);
+      color: var(--q-dot-txt);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── MISC ── */
+    hr.div { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    ul { padding-left: 18px; }
+    ul li { margin-bottom: 5px; font-size: 14px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--p);
+      color: var(--on-p);
+      padding: 22px 60px;
+      text-align: center;
+      font-size: 12px;
+    }
+    .footer strong { display: block; margin-bottom: 3px; font-size: 13px; font-weight: 700; }
+    .footer span { opacity: 0.5; }
+
+    @media (max-width: 720px) {
+      .wrap { padding: 20px; }
+      .hdr { padding: 22px 20px; flex-direction: column; gap: 14px; }
+      .grid3 { grid-template-columns: 1fr 1fr; }
+      .grid2 { grid-template-columns: 1fr; }
+      .journey { flex-direction: column; }
+      .lbanner { padding: 12px 20px; }
+      .footer { padding: 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <h1>GTM Intelligence Report</h1>
+    <div class="sub">Powered by Paulina&rsquo;s MMP Framework &middot; March 20, 2026</div>
+  </div>
+  <div class="hdr-right">
+    <img src="https://framerusercontent.com/images/ORAAG8damboNzdcr93UD295M2kE.png?width=131&height=29" class="logo-img" alt="ai-coustics logo">
+    <a href="https://www.ai-coustics.com" class="co-link">https://www.ai-coustics.com</a>
+  </div>
+</div>
+
+<!-- LAYER 1 BANNER -->
+<div class="lbanner">
+  <span class="lbadge">Layer 1</span>
+  <span class="ltitle">GTM Diagnosis &mdash; ai-coustics</span>
+</div>
+
+<div class="wrap">
+
+  <!-- USE CASE HERO -->
+  <div class="uc-hero">
+    <div class="uc-lbl">Use Case &middot; One Sentence</div>
+    <div class="uc-stmt">ai-coustics provides the real-time audio intelligence layer that makes Voice AI systems — voice agents, STT pipelines, and conversational platforms — work reliably in noisy, real-world production environments, not just in the lab.</div>
+    <div class="uc-meta">
+      <div>
+        <div class="uc-meta-label">Job To Be Done</div>
+        <p>When I'm building a voice AI agent that needs to work in real-world conditions with unpredictable audio input, I need a way to ensure my STT, VAD, and LLM pipeline receives clean, reliable speech so that my agent doesn't misunderstand users, hallucinate responses, or break turn-taking in production calls.</p>
+      </div>
+      <div>
+        <div class="uc-meta-label">Value Thesis</div>
+        <p>ai-coustics is the audio reliability layer that Voice AI depends on as voice becomes infrastructure. By sitting between chaotic real-world audio and the AI stack, they solve the problem that breaks every voice agent in production: bad input audio. Their technical moats (speech reconstruction not just noise subtraction, sub-30ms on-device latency, 500+ noise types, 1M+ acoustic environments), strategic LiveKit distribution, and developer-first GTM position them to become the default audio preprocessing standard for every voice AI application — the way Twilio became default for telephony or Stripe for payments. The $5M seed funds the transition from 'best-kept secret among audio engineers' to 'category-defining infrastructure company.'</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW GRID -->
+  <div class="grid3">
+    <div class="ov-item">
+      <div class="ov-label">Funding Stage</div>
+      <div class="ov-val">Seed</div>
+      <div class="ov-sub">$6.6M total ($1.6M pre-seed led by Connect Ventures in early 2024, $5M seed led by Partech with Inovia Capital in 2025)</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-label">Team Size</div>
+      <div class="ov-val">Estimated 15-25 (actively hiring founding GTM roles, ML engineers, and audio data engineers in Berlin)</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-label">Founded</div>
+      <div class="ov-val">2021</div>
+    </div>
+  </div>
+
+  <!-- GTM ANALYSIS -->
+  <div class="card">
+    <div class="card-title">GTM Motion Analysis</div>
+    <div class="motion">Hybrid</div>
+    <div class="grid2">
+      <div>
+        <div class="ov-label" style="margin-bottom:6px">ICP</div>
+        <p style="font-size:14px">Primary: Voice AI agent builders — startups and teams building conversational AI, voice agents, and real-time speech applications on frameworks like LiveKit, PipeCat, and WebRTC who need reliable audio input in production environments. Secondary: Consumer hardware OEMs (microphones, streaming gear, hearing devices) and AI video/voice cloning companies needing upstream audio preprocessing.</p>
+        <div class="ov-label" style="margin-top:16px;margin-bottom:6px">Pricing Model</div>
+        <p style="font-size:14px">Usage-based monthly subscription for the real-time SDK ($149-$599/mo with included minute allowances at $0.0012-$0.0015/min, enterprise custom pricing for 1M+ minutes). Separate API minute packages for batch processing (€99-€499 for 1K-10K minutes, enterprise from €0.02/min). 30-day free trial with full SDK access. Self-serve developer platform for key generation and testing.</p>
+        <div class="ov-label" style="margin-top:16px;margin-bottom:8px">Competitors</div>
+        <div><span class="tag comp-tag">Krisp (primary — enterprise noise cancellation for conferencing, now competing in voice agent space via LiveKit)</span><span class="tag comp-tag">NVIDIA Maxine / RTX Voice (GPU-dependent audio enhancement)</span><span class="tag comp-tag">Dolby.io (broader media processing APIs)</span><span class="tag comp-tag">Utterly (consumer noise cancellation)</span><span class="tag comp-tag">IRIS Clarity (real-time voice isolation)</span><span class="tag comp-tag">Silero VAD (open-source VAD that Quail VAD benchmarks against)</span></div>
+      </div>
+      <div>
+        <div class="ov-label" style="margin-bottom:8px">GTM Strengths</div>
+        <ul><li>Developer-first PLG infrastructure: self-serve platform, free trial, transparent pricing, public docs and benchmarks — 800K+ signups and 2M+ files enhanced</li><li>Strategic LiveKit native integration — one of only 2 noise cancellation options in the LiveKit voice agent framework, providing built-in distribution to the fastest-growing voice agent ecosystem</li><li>Marquee logos that validate across verticals: Elgato/Corsair (consumer hardware), Synthesia (AI video), HiDesk (voice agents), Sieve (developer platform)</li><li>Strong technical differentiation: speech reconstruction not just subtractive denoising, sub-30ms latency, no GPU dependency, 500+ noise types, 1M+ acoustic environments in training data</li><li>Compelling competitive positioning against Krisp: transparent onboarding, flexible pricing, developer-centric vs enterprise-centric, purpose-built for human-to-machine audio not just conferencing</li><li>Published benchmarks and comparison content that drives organic developer discovery</li><li>Frictionless integration story — Elgato went from idea to integration in under 4 weeks, engineer-to-engineer on Slack</li></ul>
+        <div class="ov-label" style="margin-top:16px;margin-bottom:6px">Core Pains Addressed</div>
+        <ul><li>Voice AI agents fail in production because real-world audio (background noise, reverb, clipping, competing speakers) degrades STT accuracy by 20-40%, causing misunderstandings, broken turn-taking, and lost user trust</li><li>Existing noise cancellation tools (Krisp, built-in WebRTC) are designed for human-to-human conferencing, not human-to-machine speech — they over-suppress quiet speech, flatten emotional tone, and don't reconstruct lost audio signal</li><li>Integrating audio enhancement into a voice agent pipeline is typically complex, high-latency, and GPU-dependent — developers need a lightweight SDK that works in under 40ms without specialized hardware</li><li>Audio quality issues are invisible in QA but catastrophic in production — teams don't realize their agent is broken until users abandon calls in noisy environments</li><li>Enterprise audio enhancement vendors require manual contracts, sandbox-only trials, and rigid annual commitments — developers can't test in production or iterate quickly</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDENTIFIED GAPS -->
+  <div class="card">
+    <div class="card-title">Identified GTM Gaps &middot; All Labeled as Hypotheses</div>
+    
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>ICP sprawl across 4+ distinct verticals with very different buyer profiles and sales cycles</strong>
+          </div>
+          <div class="gap-ev">Evidence: Homepage testimonials and partnerships span consumer hardware OEMs (Elgato), AI video (Synthesia), voice agent startups (HiDesk), developer platforms (Sieve), and audio production (BosePark). Founding Sales Manager JD says 'adapts easily to new ICPs and market segments,' and Glassdoor JD mentions TVs, Soundbars, Headphones, Hearing Devices. No single vertical is clearly prioritized in GTM materials.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>PLG-to-paid conversion likely underperforming relative to signup volume</strong>
+          </div>
+          <div class="gap-ev">Evidence: 800K signups and 2M files enhanced is significant top-of-funnel, but the company just raised a $5M seed and is hiring its first-ever sales team. If self-serve conversion were strong, the revenue trajectory would likely not require a founding sales hire at this stage. Self-service usage monitoring is 'not yet available' per docs, suggesting limited visibility into user activation and expansion signals.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>No dedicated sales or GTM team exists yet — transitioning from founder-led sales to first hires</strong>
+          </div>
+          <div class="gap-ev">Evidence: All GTM roles carry the 'Founding' prefix (Founding Sales Manager, Founding SDR). LinkedIn post from co-founder Fabian in April 2025 says 'We're expanding our Founding GTM Team in Sales' and describes the environment as 'sometimes a little early-stages-chaotic.' The JD asks the hire to 'help define the SDR hiring roadmap and lead onboarding.' This is team zero.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>Enterprise pricing appears significantly underoptimized</strong>
+          </div>
+          <div class="gap-ev">Evidence: The Business plan at $599/mo includes 500K minutes and a dedicated Slack channel. For an enterprise customer like Elgato processing millions of minutes for a global user base, $599/mo would be radically underpriced. The jump from $599 to 'Contact us' Enterprise tier suggests the middle of the pricing ladder is missing, and there may be substantial revenue left on the table with current mid-market customers.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>No structured case study or customer evidence program despite having strong logos</strong>
+          </div>
+          <div class="gap-ev">Evidence: Synthesia is the only published case study blog post. Elgato, HiDesk, Sieve, and BosePark appear only as homepage testimonial quotes. There is no dedicated case studies landing page. For a company selling to technical buyers who want proof of production reliability, the absence of detailed, quantified case studies is a missed conversion opportunity.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>Outbound sales motion is untested and ICP definition may be too broad for efficient prospecting</strong>
+          </div>
+          <div class="gap-ev">Evidence: The Founding Sales Manager JD lists HubSpot, Lemlist, and Apollo — a classic outbound stack being assembled from scratch. The requirement to 'adapt easily to new ICPs and market segments' implies the outbound target list is not yet defined. Without clear segmentation, outbound efficiency will be low during the critical first 6 months of the founding sales team.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>LiveKit channel partnership is underexploited as a GTM lever</strong>
+          </div>
+          <div class="gap-ev">Evidence: ai-coustics is one of only 2 noise cancellation options natively available in LiveKit (alongside Krisp), yet this distribution advantage is not prominently featured in their GTM messaging or pricing page. The co-marketing appears limited to a single launch event and a docs page. There is no visible co-sell, referral, or joint case study program with LiveKit.</div>
+        </div>
+  </div>
+
+  <!-- 90-DAY PLAN -->
+  <div class="card">
+    <div class="card-title">Paulina&rsquo;s 90-Day Plan</div>
+    <div class="framing">ai-coustics is a technically exceptional product at a GTM inflection point. They have PLG traction, marquee logos, strategic distribution through LiveKit, and $5M in fresh capital. The 90-day imperative is to convert founder-led sales intuition into a repeatable, measurable GTM engine before the seed runway clock creates pressure to show revenue acceleration. The core bet: Voice AI agents is the primary wedge, LiveKit is the distribution channel, and the founding sales team should be built around qualifying and closing PLG-sourced and channel-sourced pipeline — not cold outbound into undefined segments.</div>
+    
+            <div class="prio">
+              <div class="prio-num">P1</div>
+              <div>
+                <div class="prio-action">Lock the ICP to Voice AI agent builders and define a scored target account list of 200-300 companies within 30 days</div>
+                <div class="prio-why">The biggest risk is ICP sprawl. Hardware OEMs, AI video companies, and voice agent startups require completely different sales motions, cycles, and collateral. Voice AI agents is the highest-signal segment: it maps to their product positioning, their LiveKit integration, their fastest-growing use case, and the market with the most urgent pain (audio quality breaks agents in production). The founding sales team of 2-3 people cannot run 4 parallel motions. Pick the lane, build the playbook, prove it, then expand. Hardware OEM deals like Elgato should be handled opportunistically by the founders, not by the founding sales team.</div>
+              </div>
+            </div>
+            <div class="prio">
+              <div class="prio-num">P2</div>
+              <div>
+                <div class="prio-action">Build a PLG-to-Sales handoff system: instrument the developer platform for product-qualified lead (PQL) signals and create a structured conversion playbook within 45 days</div>
+                <div class="prio-why">800K signups is a massive asset being underutilized. The founding sales team should spend 60%+ of their time working warm leads from the developer platform, not cold outbound. This requires: (1) defining PQL criteria (SDK key generated, minutes consumed above threshold, specific model usage, team size signals), (2) building alerts in HubSpot when PQL thresholds are hit, (3) creating a 'developer → team lead → buyer' expansion playbook. The self-service usage monitoring gap in the docs confirms this instrumentation doesn't exist yet. Fix it before hiring SDRs to do cold outbound.</div>
+              </div>
+            </div>
+            <div class="prio">
+              <div class="prio-num">P3</div>
+              <div>
+                <div class="prio-action">Formalize the LiveKit channel partnership into a structured co-sell and co-marketing program within 60 days</div>
+                <div class="prio-why">Being 1 of 2 native noise cancellation options in the fastest-growing voice agent framework is an extraordinary distribution advantage that appears underexploited. Every LiveKit customer who experiences audio quality issues in production is a warm ai-coustics lead. The play: (1) joint case study with a LiveKit customer using ai-coustics, (2) co-branded 'audio quality checklist for voice agents' content piece, (3) structured referral or recommended partner status in LiveKit's sales process, (4) presence in LiveKit's community channels (Discord, docs, tutorials). This channel could generate more qualified pipeline than any outbound SDR.</div>
+              </div>
+            </div>
+    <div class="grid2" style="margin-top:20px">
+      <div>
+        <div class="ov-label" style="margin-bottom:10px">Quick Wins</div>
+        <ul><li>Publish 3 detailed case studies (Elgato, Synthesia, HiDesk) with quantified outcomes (WER reduction %, integration time, production scale) within 30 days — these already exist as testimonials and just need depth</li><li>Add a pricing tier between $599/mo and Enterprise — a 'Scale' plan at $1,200-$1,500/mo for 1-2M minutes that captures mid-market revenue currently falling through to underpriced Business plans or being lost to Enterprise friction</li><li>Create a 'Voice AI Audio Quality' benchmark page comparing ai-coustics vs Krisp vs no-enhancement across WER, VAD accuracy, and latency — this becomes the top-of-funnel SEO and developer discovery asset</li><li>Set up HubSpot lifecycle tracking from developer platform signup → SDK key generated → first minutes processed → PQL threshold → sales touch — even basic instrumentation will reveal where the funnel breaks</li><li>Write a LiveKit-specific integration guide and landing page optimized for 'LiveKit noise cancellation' and 'LiveKit audio quality' search terms to capture developers already in the LiveKit ecosystem</li></ul>
+      </div>
+      <div>
+        <div class="ov-label" style="margin-bottom:10px">Validate First</div>
+        <ul><li>What percentage of the 800K signups have generated an SDK key, and what percentage have processed more than 1,000 minutes? Where exactly does the free-to-paid conversion funnel break?</li><li>How many paying customers do you have today, and what is the current MRR/ARR? What is the average contract value for self-serve vs. enterprise deals?</li><li>How did the Elgato deal originate — inbound, outbound, or referral? What was the sales cycle length and who on your team ran it? Is this deal representative or an outlier?</li><li>What percentage of your current paid pipeline comes through the LiveKit integration vs. direct developer platform signups vs. other channels?</li><li>Have you defined ICP criteria beyond 'companies building with voice AI'? Do you have a target account list, or is the founding sales team expected to build one?</li><li>What is the current split of revenue between the real-time SDK and the batch API? Which product line has higher expansion potential?</li><li>How much of the $5M seed is allocated to GTM vs. R&D? What revenue milestones are tied to the next fundraise?</li><li>Is Krisp actively competing with you in voice agent deals today, or is the competitive overlap still mostly theoretical? Have you lost any deals to Krisp specifically?</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+</div>
+
+<!-- LAYER 2 BANNER -->
+<div class="lbanner">
+  <span class="lbadge">Layer 2</span>
+  <span class="ltitle">Sales Prep Demo &mdash; ai-coustics &rarr; Synthesia</span>
+</div>
+
+<div class="wrap">
+
+  <!-- PROSPECT PROFILE -->
+  <div class="card">
+    <div class="card-title">Prospect Profile</div>
+    <div class="grid2">
+      <div>
+        <h2 style="font-size:22px;font-weight:var(--h-weight);margin-bottom:6px">Synthesia</h2>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">
+          AI-Generated Synthetic Media / Enterprise Video Platform &middot; 900+ employees globally, $4B valuation (Series E, Oct 2025), $100M+ ARR, $536M total funding raised, 65,000+ customers including 90% of Fortune 100
+        </p>
+        <p style="font-size:14px;line-height:1.6">Synthesia is Britain's largest generative AI company, headquartered in London. Founded in 2017 by AI researchers from Stanford, Cambridge, UCL, and TUM, Synthesia is the #1 AI video platform for business. It enables enterprises to create studio-quality videos using AI avatars and voiceovers in 160+ languages, primarily for employee training, onboarding, sales enablement, compliance, and internal communications. Core capabilities include Express-2 expressive avatars, Personal Avatars (digital twins with voice cloning), AI Dubbing with lip-sync across 130+ languages, and an AI Video Assistant. Over 150,000 individuals have created personal AI avatars. Synthesia raised $200M in its Series E (led by GV, with Nvidia and Accel) specifically to develop interactive audio-visual avatar 'agents' that converse in real time — targeting automated sales training, recruiting, and corporate communications in 2026. This strategic pivot from pre-rendered video to real-time conversational AI agents represents a fundamental shift in their product architecture, with massive implications for audio input quality at scale.</p>
+      </div>
+      <div>
+        <div class="ov-label" style="margin-bottom:8px">Discovery Angle</div>
+        <div class="disc">Lead with the conversational agents strategic angle, not the current product. Synthesia just raised $200M to build real-time interactive avatar agents — this is the company's defining bet for the next 2 years. Every engineering and infrastructure decision is being made through the lens of 'does this help us ship agents at enterprise quality, fast?' Frame ai-coustics not as an audio enhancement vendor, but as the missing infrastructure layer between the messy real world and Synthesia's beautiful AI avatars. The champion is likely the engineering leader owning the agents audio pipeline — possibly reporting to SVP Engineering Gregor Belcec or CTO Peter Hill. The entry conversation should center on: 'You've solved the visual uncanny valley for avatars. But when your agents go live in enterprise environments, the audio uncanny valley — noise, echo, bad mics — will break the illusion. We solve that, across 150+ languages, in real-time, on day one.' Avoid positioning as a point solution for an existing feature; position as strategic infrastructure for their next act.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER JOURNEY MAP -->
+  <div class="card-title" style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px">
+    Customer Journey Map
+  </div>
+  <div class="journey-wrap">
+    <div class="journey">
+      
+        <div class="journey-stage">
+          <div class="stage-head">Awareness</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Synthesia engineering and product leaders research audio preprocessing solutions as they architect the real-time conversational AI agent pipeline</li><li>Team evaluates whether to build in-house speech enhancement or buy a specialized SDK for their avatar agents product</li><li>Audio quality issues surface in voice cloning pipelines and AI dubbing workflows as customers submit recordings from varied environments</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>150,000+ users creating Personal Avatars are submitting voice clone recordings from laptops, phones, and noisy offices — inconsistent audio quality degrades the fidelity of cloned voices</li><li>AI Dubbing pipeline processes user-uploaded videos with wildly varying audio conditions (background noise, reverb, multiple speakers), reducing lip-sync accuracy and voice preservation quality</li><li>The upcoming real-time conversational agent product requires stable, clean speech input in production environments where end-users will be speaking through consumer hardware in unpredictable acoustic settings</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">Series E raised $200M explicitly to build interactive avatar agents — audio reliability is now a critical-path infrastructure decision</span><span class="tag">New CTO Peter Hill (ex-Amazon, 25 years) joined Jan 2025, bringing enterprise-grade engineering standards and likely evaluating build-vs-buy for core infrastructure components</span><span class="tag">Synthesia 3.0 launch with hyper-realistic avatars and AI-powered dubbing raises the bar on audio quality expectations across the entire platform</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Position ai-coustics as the audio intelligence layer that de-risks Synthesia's most strategic product bet: real-time conversational avatar agents. Lead with the infrastructure angle — not a feature add, but a foundational reliability layer that their CTO and SVP Engineering (80+ engineers) need to ship agents at enterprise quality.
+            </div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Consideration</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Synthesia audio/ML engineers benchmark ai-coustics SDK against building custom noise suppression and speech enhancement models in-house</li><li>Product team evaluates how Quail (real-time speech enhancement) integrates with their existing TTS, voice cloning, and lip-sync pipelines</li><li>Security and compliance team reviews ai-coustics for SOC2, GDPR compatibility — critical since Synthesia serves 90% of Fortune 100 and holds ISO 42001</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Building a production-grade speech enhancement model in-house diverts ML engineering resources from core avatar and video synthesis research — Synthesia's core differentiator</li><li>Synthesia needs to support 160+ languages across voice cloning, dubbing, and future agents — any audio preprocessing solution must be language-agnostic at scale</li><li>Latency requirements for real-time conversational agents are strict; any audio preprocessing must operate at sub-30ms to maintain natural conversation flow</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">Technical proof-of-concept where ai-coustics processes sample voice clone recordings and shows measurable improvement in clone fidelity</span><span class="tag">Side-by-side demo comparing STT accuracy on noisy user-uploaded dubbing source audio with and without ai-coustics preprocessing</span><span class="tag">Architecture review showing Quail SDK can run on-device or server-side with sub-30ms latency, no GPU required — matching Synthesia's need to scale without massive compute overhead</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Offer a focused technical pilot: take 100 real Personal Avatar voice clone recordings spanning quality tiers, run them through ai-coustics enhancement, and measure downstream impact on voice clone fidelity and naturalness. This gives Synthesia's engineering team hard data without committing resources.
+            </div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Decision</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Synthesia quantifies the cost of poor audio input across three product lines: Personal Avatars (voice cloning), AI Dubbing, and the upcoming conversational agents</li><li>CTO and SVP Engineering evaluate build-vs-buy TCO: in-house audio ML team (hiring, training data, maintenance) vs. ai-coustics SDK subscription at enterprise scale</li><li>Procurement aligns on usage-based pricing model relative to Synthesia's own credits-based pricing structure and per-minute economics</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Enterprise customers (Fortune 100) have high quality expectations — audio artifacts in cloned voices or dubbed content create support tickets and erode trust in the platform</li><li>Hiring specialized audio ML engineers in the current market is expensive and slow; Synthesia already has 80+ engineers focused on video synthesis and needs to stay focused</li><li>Time-to-market pressure on conversational agents is intense — competitors like HeyGen and D-ID are also moving toward interactive avatars</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">Business case presentation showing that ai-coustics at enterprise pricing ($0.0012/min or custom) is a fraction of the cost of a single senior ML engineer ($150K-200K+), while covering 150+ languages out of the box</span><span class="tag">Reference from another AI video or voice cloning company using ai-coustics to validate production readiness</span><span class="tag">Alignment between ai-coustics and Synthesia's ethical AI positioning — ai-coustics enhances legitimate voice input, doesn't generate synthetic voices, reinforcing Synthesia's consent-first approach</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Frame the decision as a speed-to-market multiplier for conversational agents. Every month Synthesia spends building audio preprocessing in-house is a month competitors gain. ai-coustics gives them production-ready audio intelligence in weeks, not quarters, across all 160+ languages on day one.
+            </div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Onboarding</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>ai-coustics SDK integrated into Synthesia's voice cloning intake pipeline as the first deployment — highest immediate impact on user experience</li><li>Second integration point: preprocessing layer for AI Dubbing source audio to improve speaker voice preservation and lip-sync accuracy</li><li>Joint engineering sprint to architect the real-time audio pipeline for conversational agents using Quail SDK with WebRTC compatibility</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Integration must not add perceptible latency to existing video generation workflows that Synthesia customers expect to complete in minutes</li><li>Synthesia's platform processes content in 160+ languages — any regression in non-English language performance would be unacceptable</li><li>Data residency and processing requirements for Fortune 100 customers mean audio data handling must comply with strict enterprise security standards</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">First measurable improvement in voice clone quality scores across a cohort of Personal Avatar creations processed with ai-coustics</span><span class="tag">Engineering team confirms sub-30ms latency in real-time agent prototype pipeline with ai-coustics Quail integrated</span><span class="tag">Zero-regression validation across 20+ language families confirming ai-coustics' language-agnostic performance claim</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Provide dedicated integration engineering support and a named technical account manager. Co-create success metrics dashboard tracking voice clone quality scores, dubbing accuracy, and latency benchmarks. Make Synthesia's engineering team look like heroes to their CTO by delivering fast, measurable wins.
+            </div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Expansion</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Expand from backend pipeline integration to user-facing real-time enhancement — enabling Synthesia customers to record Personal Avatar source videos from any environment with automatic audio cleanup</li><li>Power the audio input layer for Synthesia's conversational AI agents product, becoming core infrastructure for their next growth phase</li><li>Explore co-marketing opportunity: ai-coustics as a named technology partner for Synthesia's enterprise audio quality guarantee</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>As Synthesia scales from 65,000 to 100,000+ customers, the variety of audio input environments and quality levels will only increase — the problem grows with success</li><li>Conversational agents will be deployed in diverse enterprise environments (call centers, mobile, browser) each with unique acoustic challenges</li><li>Competitive pressure from HeyGen, Colossyan, and others means Synthesia must maintain perceptible quality leadership across every dimension including audio</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">Conversational agents launch to enterprise customers with ai-coustics as the audio reliability layer — a flagship joint reference</span><span class="tag">Usage scales to millions of minutes per month as agents are deployed across Fortune 100 customers</span><span class="tag">Joint case study showing measurable improvement in voice clone adoption rates and customer satisfaction after ai-coustics integration</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Position for a multi-year enterprise agreement tied to Synthesia's conversational agents roadmap. As agents scale to millions of enterprise end-users, ai-coustics becomes embedded infrastructure with massive usage volume. Explore strategic partnership or co-development agreement aligned with Synthesia's $200M Series E investment thesis.
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- VALUE CALCULATOR -->
+  <div class="card">
+    <div class="card-title">Value Calculator &middot; 3 Levers</div>
+    <div class="vc-uc"><strong>Use Case:</strong> ai-coustics provides the audio intelligence and reliability layer that ensures Synthesia's AI avatars — from voice clones to real-time conversational agents — receive clean, stable speech input regardless of recording environment, across 160+ languages, at sub-30ms latency.</div>
+    
+        <div class="lever">
+          <div class="lever-num">1</div>
+          <div class="lever-body">
+            <div class="lever-name">Voice Clone Quality Uplift & Support Cost Reduction</div>
+            <div class="lever-desc">150,000+ users have created Personal Avatars with voice clones, but recordings from consumer devices in uncontrolled environments produce inconsistent clone quality. Poor source audio leads to unnatural-sounding clones, user complaints, re-recordings, and support tickets. Preprocessing all voice clone intake audio through ai-coustics standardizes input quality, improving clone fidelity and reducing re-recording rates and support burden.</div>
+            <div class="lever-assumption">
+              <span class="badge hyp">HYPOTHESIS</span>If even 10% of Personal Avatar creations require re-recording or generate support interactions due to audio quality issues, and each costs $15-25 in support/engineering time, that is 15,000 incidents at ~$20 each = $300K/year. A 50% reduction through preprocessing saves $150K/year, while improving NPS and adoption rates for the Personal Avatar feature which drives plan upgrades.
+            </div>
+            <div class="lever-est">$150K-300K/year in direct support cost savings plus measurable improvement in Personal Avatar adoption rates driving upsell to Creator ($89/mo) and Enterprise tiers</div>
+          </div>
+        </div>
+        <div class="lever">
+          <div class="lever-num">2</div>
+          <div class="lever-body">
+            <div class="lever-name">Engineering Opportunity Cost — Build vs. Buy for Audio Preprocessing</div>
+            <div class="lever-desc">Synthesia has 80+ engineers focused on video synthesis, avatar expressiveness, and platform infrastructure. Building a production-grade, language-agnostic speech enhancement system covering 150+ languages would require 2-4 specialized audio ML engineers ($150K-200K+ each), 6-12 months of development, and ongoing maintenance. ai-coustics delivers this capability as a ready-to-integrate SDK, freeing Synthesia's engineering team to focus on their core differentiator: visual avatar quality and the conversational agents product.</div>
+            <div class="lever-assumption">
+              <span class="badge hyp">HYPOTHESIS</span>Minimum 2 senior ML engineers at $180K fully-loaded salary each = $360K/year, plus 6-9 months of development time before production readiness. Opportunity cost of those engineers not working on conversational agents (Synthesia's $200M strategic bet) is arguably much higher. ai-coustics enterprise pricing at scale (millions of minutes) likely $50K-150K/year.
+            </div>
+            <div class="lever-est">$200K-500K/year in engineering cost avoidance plus 6-9 months faster time-to-market on conversational agents</div>
+          </div>
+        </div>
+        <div class="lever">
+          <div class="lever-num">3</div>
+          <div class="lever-body">
+            <div class="lever-name">Conversational Agent Audio Reliability — Enabling the $200M Product Bet</div>
+            <div class="lever-desc">Synthesia raised $200M specifically to build interactive avatar agents that converse in real-time for sales training, recruiting, and corporate communications. These agents will be deployed in enterprise environments where end-users speak through laptops, phones, and conference room mics in noisy offices, home setups, and mobile environments. Without a robust audio preprocessing layer, agent comprehension (STT accuracy) degrades, conversations break, and enterprise buyers lose confidence. ai-coustics Quail SDK provides real-time speech enhancement, VAD, and speaker isolation at sub-30ms latency — the exact infrastructure needed for production-grade conversational agents.</div>
+            <div class="lever-assumption">
+              <span class="badge hyp">HYPOTHESIS</span>If audio reliability issues cause even a 5% degradation in agent conversation completion rates across enterprise deployments, and each failed conversation represents lost training effectiveness or user abandonment, the impact on Synthesia's ability to sell and retain enterprise agent contracts (likely $100K-500K+ per enterprise customer) is significant. Preventing churn of even 2-3 enterprise agent customers per year could represent $300K-1.5M in protected revenue.
+            </div>
+            <div class="lever-est">$300K-1.5M/year in protected enterprise revenue from conversational agent product, plus immeasurable strategic value as the enabler of Synthesia's next growth phase</div>
+          </div>
+        </div>
+    <div class="value-total">
+      <div>
+        <div class="vt-label">Estimated Value Range</div>
+        <div style="font-size:11px;color:var(--muted)">Conservative &middot; Assumption-Labeled</div>
+      </div>
+      <div class="vt-number">$650K — $2.3M annually in combined cost savings, engineering leverage, and protected revenue, with strategic upside as conversational agents scale to millions of enterprise end-users</div>
+    </div>
+    <div class="vc-caveat">All figures are conservative estimates based on public benchmarks. Validate before presenting.</div>
+  </div>
+
+  <!-- CHAMPION PACK TEASER -->
+  <div class="champ">
+    <div class="champ-label">Champion Pack</div>
+    <div class="champ-headline">ai-coustics: The Audio Reliability Layer That De-Risks Synthesia's Conversational Agent Bet</div>
+    <div class="champ-summary">Synthesia is making a $200M strategic investment in real-time conversational AI avatar agents. This product will be deployed across Fortune 100 enterprises where end-users speak through consumer hardware in unpredictable acoustic environments. Audio input quality is the hidden variable that determines whether agent conversations succeed or fail. ai-coustics provides production-ready, real-time speech enhancement across 150+ languages at sub-30ms latency — no GPU required — as a drop-in SDK. The immediate deployment covers voice cloning intake quality and AI dubbing preprocessing, while the strategic deployment powers the conversational agents pipeline. This is a build-vs-buy decision where buying saves 6-9 months of engineering time, avoids hiring specialized audio ML talent, and delivers language coverage that would take years to build in-house.</div>
+    <div class="champ-kpis">
+      <div class="champ-label" style="margin-bottom:8px">KPIs &amp; Success Metrics</div>
+      <span class="tag">Voice clone quality score improvement (MOS/PESQ) on Personal Avatar recordings preprocessed with ai-coustics</span><span class="tag">STT word error rate reduction in conversational agent prototype with ai-coustics Quail vs. raw audio input</span><span class="tag">Time-to-production for conversational agent audio pipeline (weeks with ai-coustics vs. months building in-house)</span><span class="tag">Achieve measurable voice clone fidelity improvement across 20+ languages within 30-day pilot</span><span class="tag">Demonstrate sub-30ms end-to-end latency in real-time agent audio pipeline integrated with ai-coustics Quail SDK</span><span class="tag">Reduce Personal Avatar re-recording rate by 40%+ and related support tickets by 30%+ within first quarter of deployment</span>
+    </div>
+    <div class="champ-label" style="margin-bottom:10px">
+      Run this live in the workshop to co-build the full champion pack
+    </div>
+    <span class="run-live">&#9654; Run This Live in the Room</span>
+  </div>
+
+  <!-- QUESTIONS TO VALIDATE -->
+  <div class="card">
+    <div class="card-title">Questions to Validate in the Room</div>
+    <ul class="q-list">
+      <li><span class="q-dot">?</span>How is Synthesia currently handling audio input quality for Personal Avatar voice clone recordings — is there any preprocessing, or does the raw recording go directly into the voice cloning model?</li><li><span class="q-dot">?</span>What is the current re-recording or failure rate for Personal Avatar voice clones, and how much of that is attributable to poor source audio quality vs. other factors?</li><li><span class="q-dot">?</span>Where is the conversational AI agents product in the development lifecycle — are you in research, prototyping, or active engineering, and who owns the audio pipeline architecture?</li><li><span class="q-dot">?</span>For the agents product, what is the target deployment environment — browser-based, mobile, embedded — and what audio input scenarios are you designing for (e.g., call center, laptop mic, mobile)?</li><li><span class="q-dot">?</span>Is there an existing relationship or evaluation underway with any speech enhancement or noise cancellation vendor (e.g., Krisp, NVIDIA Maxine), or is the team currently planning to build this capability in-house?</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>PauliBot &middot; Powered by Paulina&rsquo;s MMP Framework</strong>
+  <span>All hypotheses must be validated in the room. ROI figures are conservative estimates. Generated March 20, 2026.</span>
+</div>
+
+</body>
+</html>
