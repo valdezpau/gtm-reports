@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GTM Intelligence — Rivia</title>
+  
+  <style>
+    :root {
+      --p:        #235FF6;
+      --s:        #f2f1ff;
+      --acc:      #235FF6;
+      --on-p:     #ffffff;
+      --bg:       #f4f6fb;
+      --card:     #ffffff;
+      --txt:      #1a202c;
+      --muted:    #718096;
+      --border:   #e2e8f0;
+      --radius:   8px;
+      --h-weight: 700;
+
+      --on-s:       #0f172a;
+
+      --hyp-bg:     #fffbeb;
+      --hyp-border: #fde68a;
+      --hyp-txt:    #92400e;
+      --hyp-bdg-bg: #fef3c7;
+      --hyp-bdg-t:  #92400e;
+      --gap-bg:     #fffbeb;
+      --gap-border: #fde68a;
+      --green:      #059669;
+      --green-bg:   #f0fdf4;
+      --green-bdr:  #a7f3d0;
+      --q-dot-bg:   #fef3c7;
+      --q-dot-txt:  #92400e;
+      --framing-bg: #f8fafc;
+      --disc-bg:    #eff6ff;
+      --vc-uc-bg:   #fffbeb;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .hdr {
+      background: var(--p);
+      color: var(--on-p);
+      padding: 36px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hdr h1 {
+      font-size: 28px;
+      font-weight: var(--h-weight);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+    .hdr .sub {
+      font-size: 13px;
+      opacity: 0.65;
+      margin-top: 5px;
+      font-weight: 400;
+    }
+    .hdr-right { text-align: right; }
+    .logo-img {
+      max-height: 44px;
+      max-width: 160px;
+      object-fit: contain;
+      filter: none;
+      display: block;
+      margin: 0 0 8px auto;
+    }
+    .logo-text {
+      font-size: 18px;
+      font-weight: var(--h-weight);
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+    .co-link {
+      color: var(--on-p);
+      opacity: 0.55;
+      font-size: 12px;
+      text-decoration: none;
+    }
+
+    /* ── LAYER BANNER ── */
+    .lbanner {
+      background: var(--s);
+      color: var(--on-s);
+      padding: 13px 60px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .lbadge {
+      background: rgba(0,0,0,0.15);
+      border-radius: 20px;
+      padding: 3px 13px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .ltitle { font-size: 14px; font-weight: 600; opacity: 0.9; }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 36px 60px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px 30px;
+      margin-bottom: 22px;
+    }
+    .card-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+    }
+    .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 22px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .ov-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .ov-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .ov-val { font-size: 15px; font-weight: 700; }
+    .ov-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    /* ── USE CASE HERO ── */
+    .uc-hero {
+      background: linear-gradient(135deg, var(--p) 0%, var(--s) 100%);
+      color: var(--on-p);
+      border-radius: var(--radius);
+      padding: 30px 34px;
+      margin-bottom: 22px;
+    }
+    .uc-lbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.65;
+      margin-bottom: 8px;
+    }
+    .uc-stmt {
+      font-size: 22px;
+      font-weight: var(--h-weight);
+      line-height: 1.35;
+      margin-bottom: 20px;
+    }
+    .uc-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .uc-meta-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      opacity: 0.6;
+      margin-bottom: 4px;
+    }
+    .uc-meta p { font-size: 13px; opacity: 0.85; line-height: 1.5; }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-block;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      margin-right: 8px;
+    }
+    .hyp { background: var(--hyp-bdg-bg); color: var(--hyp-bdg-t); }
+    .motion {
+      background: var(--p);
+      color: var(--on-p);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 16px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    /* ── GAPS ── */
+    .gap {
+      border: 1px solid var(--gap-border);
+      background: var(--gap-bg);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .gap-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .gap-ev { font-size: 12px; color: var(--muted); }
+
+    /* ── PRIORITIES ── */
+    .prio {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .prio:last-child { border-bottom: none; }
+    .prio-num {
+      background: var(--p);
+      color: var(--on-p);
+      width: 34px;
+      height: 34px;
+      border-radius: calc(var(--radius) - 2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .prio-action { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+    .prio-why { font-size: 13px; color: var(--muted); }
+
+    /* ── TAGS ── */
+    .tag {
+      display: inline-block;
+      background: var(--border);
+      color: var(--txt);
+      border-radius: calc(var(--radius) - 2px);
+      padding: 3px 9px;
+      font-size: 12px;
+      margin: 2px;
+      opacity: 0.9;
+    }
+    .comp-tag { background: rgba(220,38,38,0.12); color: #f87171; border: 1px solid rgba(220,38,38,0.25); }
+    .kpi-tag { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bdr); }
+
+    /* ── FRAMING / CALLOUTS ── */
+    .framing {
+      background: var(--framing-bg);
+      border-left: 4px solid var(--p);
+      border-radius: 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0;
+      padding: 14px 18px;
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    .disc {
+      background: var(--disc-bg);
+      border-left: 4px solid var(--acc);
+      border-radius: 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0;
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+
+    /* ── JOURNEY MAP ── */
+    .journey-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+    .journey {
+      display: flex;
+      overflow-x: auto;
+    }
+    .journey-stage {
+      flex: 1;
+      min-width: 178px;
+      border-right: 1px solid var(--border);
+    }
+    .journey-stage:last-child { border-right: none; }
+    .stage-head {
+      background: var(--p);
+      color: var(--on-p);
+      padding: 11px 14px;
+      font-size: 10px;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+    .stage-body { padding: 14px; background: var(--card); }
+    .stage-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      margin: 10px 0 4px;
+      font-weight: 700;
+    }
+    .stage-body ul { list-style: none; padding: 0; }
+    .stage-body ul li { font-size: 12px; padding: 2px 0; }
+    .stage-body ul li::before { content: "92 a0"; color: var(--acc); }
+    .moments .tag { font-size: 11px; }
+    .seller-opp {
+      font-size: 12px;
+      background: #eff6ff;
+      border-left: 3px solid var(--acc);
+      padding: 8px 10px;
+      border-radius: 0 4px 4px 0;
+      margin-top: 10px;
+    }
+    .seller-opp strong {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    /* ── VALUE CALCULATOR ── */
+    .vc-uc {
+      background: var(--vc-uc-bg);
+      border-left: 4px solid var(--hyp-border);
+      border-radius: 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0;
+      padding: 12px 16px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      color: var(--hyp-txt);
+    }
+    .lever {
+      display: flex;
+      gap: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 10px;
+    }
+    .lever-num {
+      background: var(--acc);
+      color: #ffffff;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .lever-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .lever-desc { font-size: 13px; color: var(--muted); margin-bottom: 7px; }
+    .lever-assumption { font-size: 12px; margin-bottom: 5px; color: var(--txt); }
+    .lever-est { font-size: 14px; font-weight: 700; color: var(--green); }
+    .value-total {
+      background: var(--green-bg);
+      border: 2px solid var(--green-bdr);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .vt-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .vt-number { font-size: 24px; font-weight: 900; color: var(--green); }
+    .vc-caveat { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 10px; }
+
+    /* ── CHAMPION PACK TEASER ── */
+    .champ {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .champ::after {
+      content: '';
+      position: absolute;
+      top: -70px;
+      right: -70px;
+      width: 240px;
+      height: 240px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .champ-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      opacity: 0.5;
+      margin-bottom: 8px;
+    }
+    .champ-headline {
+      font-size: 24px;
+      font-weight: var(--h-weight);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .champ-summary {
+      font-size: 14px;
+      opacity: 0.82;
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .champ-kpis { margin-bottom: 22px; }
+    .champ-kpis .tag {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .run-live {
+      display: inline-block;
+      background: #ffffff;
+      color: #1e1b4b;
+      padding: 11px 22px;
+      border-radius: var(--radius);
+      font-weight: 800;
+      font-size: 13px;
+      cursor: default;
+    }
+
+    /* ── QUESTIONS ── */
+    .q-list { list-style: none; padding: 0; }
+    .q-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .q-list li:last-child { border-bottom: none; }
+    .q-dot {
+      background: var(--q-dot-bg);
+      color: var(--q-dot-txt);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── MISC ── */
+    hr.div { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    ul { padding-left: 18px; }
+    ul li { margin-bottom: 5px; font-size: 14px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--p);
+      color: var(--on-p);
+      padding: 22px 60px;
+      text-align: center;
+      font-size: 12px;
+    }
+    .footer strong { display: block; margin-bottom: 3px; font-size: 13px; font-weight: 700; }
+    .footer span { opacity: 0.5; }
+
+    @media (max-width: 720px) {
+      .wrap { padding: 20px; }
+      .hdr { padding: 22px 20px; flex-direction: column; gap: 14px; }
+      .grid3 { grid-template-columns: 1fr 1fr; }
+      .grid2 { grid-template-columns: 1fr; }
+      .journey { flex-direction: column; }
+      .lbanner { padding: 12px 20px; }
+      .footer { padding: 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <h1>GTM Intelligence Report</h1>
+    <div class="sub">Powered by Paulina&rsquo;s MMP Framework &middot; March 23, 2026</div>
+  </div>
+  <div class="hdr-right">
+    <img src="https://cdn.prod.website-files.com/63e9fb1a748f5409c154e1c2/63f09bda7310663651c16999_Original.svg" class="logo-img" alt="Rivia logo">
+    <a href="https://www.rivia.ai" class="co-link">https://www.rivia.ai</a>
+  </div>
+</div>
+
+<!-- LAYER 1 BANNER -->
+<div class="lbanner">
+  <span class="lbadge">Layer 1</span>
+  <span class="ltitle">GTM Diagnosis &mdash; Rivia</span>
+</div>
+
+<div class="wrap">
+
+  <!-- USE CASE HERO -->
+  <div class="uc-hero">
+    <div class="uc-lbl">Use Case &middot; One Sentence</div>
+    <div class="uc-stmt">Rivia.AI enables B2B SaaS teams to create full-fidelity, interactive product demos in minutes using HTML capture, so prospects can experience the product without live handholding — replacing static screenshots, recorded videos, and expensive live demo calls.</div>
+    <div class="uc-meta">
+      <div>
+        <div class="uc-meta-label">Job To Be Done</div>
+        <p>When a B2B SaaS company wants to let prospects experience their product before buying — without engineering effort, without scheduling a live call, and without the limitations of video walkthroughs — they need a way to create realistic, interactive, shareable product demos that marketing can embed on websites, sales can personalize for deals, and CS can use for onboarding.</p>
+      </div>
+      <div>
+        <div class="uc-meta-label">Value Thesis</div>
+        <p>Rivia.AI's value thesis is that in a crowded interactive demo market dominated by well-funded players pricing at $500+/mo for teams, there is a massive underserved segment of early-stage and growth-stage SaaS companies that need the same capability at 10x lower cost with 10x faster time-to-value. By combining aggressive pricing ($40/mo entry), genuine speed (10-minute setup via Chrome extension), high-fidelity HTML capture, and a unique mobile app demo capability, Rivia can win the long tail of the market that Walnut, Demostack, and Reprise will never serve — and grow with those companies as they scale. The risk is that better-funded competitors like Storylane and Arcade are attacking the same segment with similar pricing and more capital, making Rivia's window to establish defensible positioning narrow and shrinking.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW GRID -->
+  <div class="grid3">
+    <div class="ov-item">
+      <div class="ov-label">Funding Stage</div>
+      <div class="ov-val">Bootstrapped or undisclosed pre-seed. No publicly discoverable funding round on Crunchbase, press, or anywhere else. About page references 'Backed and Trusted By' with unnamed logos.</div>
+      <div class="ov-sub">Unknown — likely minimal or zero external capital</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-label">Team Size</div>
+      <div class="ov-val">Estimated <15 people. Only 2 founders visible on About page. No careers page found, no job postings discovered. Founders likely performing most sales and CS functions.</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-label">Founded</div>
+      <div class="ov-val">Estimated 2023 based on content timeline and product maturity signals</div>
+    </div>
+  </div>
+
+  <!-- GTM ANALYSIS -->
+  <div class="card">
+    <div class="card-title">GTM Motion Analysis</div>
+    <div class="motion">Hybrid</div>
+    <div class="grid2">
+      <div>
+        <div class="ov-label" style="margin-bottom:6px">ICP</div>
+        <p style="font-size:14px">Early-stage to growth-stage B2B SaaS startups and SMBs, primarily founder-led or with small marketing/product teams. Heavily indexed toward the Indian startup ecosystem with aspirations for US/EU expansion. Buyer personas include product marketers, growth leads, founders, and sales enablement managers at companies with 10-200 employees.</p>
+        <div class="ov-label" style="margin-top:16px;margin-bottom:6px">Pricing Model</div>
+        <p style="font-size:14px">Tiered: Self-serve Starter at $40/mo ($384/yr) for individuals with 5 demos. Growth and Enterprise tiers are 'Let's Talk' requiring a sales conversation. Special startup plan with size-based pricing available by request. Annual billing saves 20%.</p>
+        <div class="ov-label" style="margin-top:16px;margin-bottom:8px">Competitors</div>
+        <div><span class="tag comp-tag">Navattic (~$10M+ funded, Series A)</span><span class="tag comp-tag">Storylane (~$6M+ funded, closest price competitor at ~$40/mo)</span><span class="tag comp-tag">Walnut.io (~$56M funded, Series B, enterprise-focused)</span><span class="tag comp-tag">Demostack (~$34M funded, Series A, enterprise-focused)</span><span class="tag comp-tag">Arcade (~$17M funded, Series A, freemium PLG motion)</span><span class="tag comp-tag">Reprise (~$46M funded, Series B, enterprise demo environments)</span><span class="tag comp-tag">Tourial (~$4M funded, mid-market)</span></div>
+      </div>
+      <div>
+        <div class="ov-label" style="margin-bottom:8px">GTM Strengths</div>
+        <ul><li>Aggressive price disruption at $40/mo vs. competitors at $500+/mo — lowest credible entry point in the category</li><li>Mobile app demo support claimed as unique differentiator — only platform supporting mobile app interactive demos per customer testimonial</li><li>HTML capture fidelity creates demos that look and feel like the real product, not screenshots</li><li>Speed-to-value positioning: 'Publish your first demo in 10 minutes' with near-zero learning curve validated by multiple customer testimonials</li><li>Strong integration story with HubSpot, Salesforce, Marketo adds enterprise-readiness signal despite SMB customer base</li><li>SEO alternatives content strategy targeting competitor brand searches (Arcade, Demostack, Reprise comparison articles)</li><li>Founder domain expertise — both co-founders from a unicorn SaaS company in product/marketing and ML/AI roles</li></ul>
+        <div class="ov-label" style="margin-top:16px;margin-bottom:6px">Core Pains Addressed</div>
+        <ul><li>Live product demos are expensive, unscalable, and bottlenecked by AE availability — prospects wait days/weeks to see the product</li><li>Video walkthroughs are passive and low-engagement — prospects can't click, explore, or interact, leading to lower conversion</li><li>Engineering-built demo environments are costly to maintain, break frequently, and require dev resources that should be building product</li><li>Sales teams cannot easily personalize demos for different personas, use cases, or verticals without significant manual effort</li><li>Mobile app products have almost no options for creating interactive demos — most platforms only support web applications</li><li>Marketing teams cannot embed ungated product experiences on their website, forcing prospects through high-friction 'Book a Demo' flows before ever seeing the product</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDENTIFIED GAPS -->
+  <div class="card">
+    <div class="card-title">Identified GTM Gaps &middot; All Labeled as Hypotheses</div>
+    
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>No published case studies or ROI data despite 100+ customers</strong>
+          </div>
+          <div class="gap-ev">Evidence: Website has testimonials from 5 small/unknown startups but zero dedicated case study pages, no named enterprise logos, no quantified outcomes (conversion lift, time saved, pipeline generated). Testimonials are qualitative praise, not business impact.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>PLG aspiration vs. sales-assisted reality — stuck in the middle</strong>
+          </div>
+          <div class="gap-ev">Evidence: Company values state 'Product-led growth >>> everything else' and blog heavily covers PLG topics, but primary homepage CTA is 'Get a Demo' / 'Schedule Demo' not 'Sign Up Free'. No free tier or free trial visible. Growth and Enterprise tiers require 'Book a Demo'. The $40 Starter plan is too expensive for viral PLG and too cheap for a sales-led motion.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>No visible sales team or GTM hires — founders are likely the entire sales function</strong>
+          </div>
+          <div class="gap-ev">Evidence: No careers page on website, no discoverable job postings on LinkedIn or job boards, About page lists only 2 founders. Customer testimonial mentions 'Rivia team has been super supportive' suggesting hands-on founder-led support, not a scaled CS org.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>Customer base is SMB/startup-heavy and India-indexed — limits ACV and growth ceiling</strong>
+          </div>
+          <div class="gap-ev">Evidence: All 5 named testimonial customers (Revert.Dev, PWIP, OmeImpression, Reshield, Kroolo) are early-stage startups, several clearly India-based. No mid-market or enterprise logos visible. '20+ countries' claim but concentration appears narrow.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>Severe capital disadvantage against well-funded competitors consolidating the category</strong>
+          </div>
+          <div class="gap-ev">Evidence: Competitors have raised a combined $170M+. Walnut ($56M), Reprise ($46M), Demostack ($34M), Arcade ($17M), Navattic ($10M+). Rivia has no discoverable funding. This limits ability to invest in sales, marketing, and product simultaneously.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>Low content velocity and thin SEO footprint</strong>
+          </div>
+          <div class="gap-ev">Evidence: Blog shows approximately 10-15 total posts, most dated 2024 with no visible 2025 content. Competitors publish at 5-10x this rate. Alternatives comparison posts exist for only 3 competitors (Arcade, Demostack, Reprise) — missing Navattic, Storylane, Walnut, Tourial head-to-head pages.</div>
+        </div>
+        <div class="gap">
+          <div class="gap-head">
+            <span class="badge hyp">HYPOTHESIS</span>
+            <strong>No visible outbound, partnership, or channel strategy</strong>
+          </div>
+          <div class="gap-ev">Evidence: No evidence of agency partnerships, technology partnerships beyond integrations, community building, events presence, or outbound sales tooling. Growth appears entirely inbound/organic.</div>
+        </div>
+  </div>
+
+  <!-- 90-DAY PLAN -->
+  <div class="card">
+    <div class="card-title">Paulina&rsquo;s 90-Day Plan</div>
+    <div class="framing">Rivia.AI is an early-stage, likely bootstrapped interactive demo platform with genuine product differentiation (mobile demos, HTML fidelity, speed, price) but an under-built GTM engine competing in a category being consolidated by players with 10-50x more capital. The 90-day plan must focus on capital-efficient moves that create defensible positioning before the funding gap becomes fatal. The core strategic question is: own a niche decisively or get squeezed out of a crowded middle.</div>
+    
+            <div class="prio">
+              <div class="prio-num">P1</div>
+              <div>
+                <div class="prio-action">Commit to a PLG motion with a true free tier and kill the ambiguity</div>
+                <div class="prio-why">Rivia's stated values, price point, and product (Chrome extension, 10-minute setup) scream PLG, but they're running a sales-assisted motion with 'Book a Demo' CTAs. At their team size and funding level, they cannot out-sell Walnut or Demostack. They CAN out-PLG them. Launch a free tier (e.g., 1 user, 3 demos, Rivia watermark) to generate volume, capture emails, and create a self-serve funnel. Move the $40 Starter to a Pro tier. Use the Growth/Enterprise tiers for expansion revenue only after users have already activated. This aligns their stated philosophy with their actual motion and plays to their capital-efficiency advantage.</div>
+              </div>
+            </div>
+            <div class="prio">
+              <div class="prio-num">P2</div>
+              <div>
+                <div class="prio-action">Build and publish 5 case studies with quantified ROI in 30 days</div>
+                <div class="prio-why">100+ customers and zero case studies is the single highest-leverage gap to close. Pick the 5 best customers (prioritize any with recognizable names or strong metrics), interview them, and publish case studies with specific numbers: conversion rate lift, demos created per month, time saved vs. video/live demos, pipeline influenced. These assets unlock every other GTM channel — they power the website, fuel outbound, arm champions for internal buy-in, and dramatically improve close rates on Growth/Enterprise deals.</div>
+              </div>
+            </div>
+            <div class="prio">
+              <div class="prio-num">P3</div>
+              <div>
+                <div class="prio-action">Own the 'mobile app demos' niche with a dedicated landing page, content cluster, and targeted outbound</div>
+                <div class="prio-why">Customer testimonial explicitly claims Rivia is 'the only product on the market that supports demos for mobile apps.' If true, this is a category-of-one positioning opportunity. Create a dedicated /mobile-demos landing page, write 5-7 SEO articles targeting 'interactive demo for mobile apps,' 'mobile app product tour software,' etc. Run targeted outbound to mobile-first SaaS companies, fintech apps, and consumer tech with product-market fit messaging. This is a defensible wedge that well-funded horizontal competitors are unlikely to prioritize.</div>
+              </div>
+            </div>
+    <div class="grid2" style="margin-top:20px">
+      <div>
+        <div class="ov-label" style="margin-bottom:10px">Quick Wins</div>
+        <ul><li>Add a 'Sign Up Free' or 'Start Free Trial' CTA alongside 'Get a Demo' on the homepage — test conversion impact in 1 week</li><li>Publish head-to-head comparison pages for Navattic, Storylane, and Walnut immediately — these are missing and competitors are capturing this search traffic</li><li>Turn existing customer testimonials into short-form LinkedIn posts from the CEO's personal account — costs nothing, builds founder brand</li><li>Add a customer logos bar with actual recognizable brand names to the homepage (if any exist beyond the 5 testimonial companies)</li><li>Create a public interactive demo of Rivia.AI itself on the homepage — practice what you preach, show don't tell, and it becomes a viral proof point</li></ul>
+      </div>
+      <div>
+        <div class="ov-label" style="margin-bottom:10px">Validate First</div>
+        <ul><li>What is your current ARR/MRR and monthly growth rate?</li><li>Are you bootstrapped or do you have undisclosed funding? What is your runway?</li><li>What percentage of revenue comes from Starter (self-serve) vs. Growth/Enterprise (sales-assisted)?</li><li>What does your current sales process look like — who runs demos, what's the cycle length, what's the close rate?</li><li>What is your actual team size and composition? Any dedicated GTM hires?</li><li>Is the mobile app demo support truly unique? How many customers use it specifically for mobile?</li><li>What is your geographic revenue split — India vs. US/EU vs. rest of world?</li><li>What is your Net Revenue Retention? Do Starter customers expand to Growth/Enterprise?</li><li>How are customers finding you today — what are the top 3 acquisition channels by revenue?</li><li>Have you explored or been approached for funding? What is your stance on raising capital?</li><li>Who is your actual buyer — is it the founder, the product marketer, the sales leader, or the demand gen manager?</li><li>What does your competitive win/loss look like — who do you encounter most in deals, and why do you win or lose?</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+</div>
+
+<!-- LAYER 2 BANNER -->
+<div class="lbanner">
+  <span class="lbadge">Layer 2</span>
+  <span class="ltitle">Sales Prep Demo &mdash; Rivia &rarr; Kroolo</span>
+</div>
+
+<div class="wrap">
+
+  <!-- PROSPECT PROFILE -->
+  <div class="card">
+    <div class="card-title">Prospect Profile</div>
+    <div class="grid2">
+      <div>
+        <h2 style="font-size:22px;font-weight:var(--h-weight);margin-bottom:6px">Kroolo</h2>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">
+          B2B SaaS — AI-Native Productivity & Work Management (Enterprise AI Platform) &middot; Estimated 20–60 employees. No public headcount disclosed. Recently pivoted from work management to Enterprise AI platform (March 2026), suggesting growth-stage with expanding go-to-market ambitions. Pricing tiers from free to enterprise suggest PLG + sales-assisted hybrid motion. No disclosed funding rounds.
+        </p>
+        <p style="font-size:14px;line-height:1.6">Kroolo is an AI-native WorkOS platform that unifies project management, enterprise search, and AI agents into a single intelligence layer. It positions itself as a replacement for 10+ fragmented tools (Asana, Notion, Slack, Jira, etc.) with 50+ AI agents, 40+ integrations, and tiered pricing from free to enterprise. In March 2026, Kroolo announced a strategic transformation from a work management tool into a full-scale Enterprise AI platform — signaling an aggressive upmarket push into mid-market and enterprise accounts. The platform offers projects, sprints, OKRs, docs, collaboration, smart workflows, enterprise search, and agentic AI capabilities. They integrate with HubSpot, Salesforce, Slack, Jira, and 40+ other tools. Their current demo process is a 1-on-1 personalized sales-led walkthrough booked via form — no self-serve interactive product demo is visible on their website.</p>
+      </div>
+      <div>
+        <div class="ov-label" style="margin-bottom:8px">Discovery Angle</div>
+        <div class="disc">The core discovery angle is TIMING and TRANSFORMATION. Kroolo just made the biggest strategic bet in its history — pivoting from a work management tool into an Enterprise AI platform. This changes everything about their GTM: the product is now a complex, multi-pillar platform (Work + Search + Agents), the buyer is now enterprise with multi-stakeholder committees, and the sales conversation is now consultative, not transactional. But their demo infrastructure hasn't caught up to this new reality. They're still running a form-based 'Book a Demo' model with what appears to be a lean sales team. The gap between their ambition (replace 10+ enterprise tools) and their current ability to show that story at scale is the exact problem Rivia solves. Don't lead with features. Lead with: 'You just told the world you're an Enterprise AI platform. Let's talk about how your buyer experiences that story today — and where the gaps are.' The emotional hook is that Kroolo's team has built something genuinely impressive, but they're under-equipped to let prospects feel it without burning scarce AE time. Rivia is the force multiplier that matches their demo experience to their product ambition.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER JOURNEY MAP -->
+  <div class="card-title" style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px">
+    Customer Journey Map
+  </div>
+  <div class="journey-wrap">
+    <div class="journey">
+      
+        <div class="journey-stage">
+          <div class="stage-head">Awareness</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Prospect visits kroolo.com homepage and sees 'Replace 10+ fragmented apps' messaging</li><li>Prospect reads blog content comparing AI-native WorkOS vs AI-enabled tools</li><li>Prospect encounters Kroolo through G2 listings, competitor comparison searches, or social content</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Kroolo's product is complex and multi-faceted (projects + search + AI agents) — hard to convey full value in static copy alone</li><li>Visitors who land on the homepage see 'Book a Demo' as the primary CTA but may not be ready for a live call, creating drop-off</li><li>No self-serve interactive product experience exists to let curious visitors explore at their own pace before committing to a sales conversation</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">First homepage visit where the visitor decides within 8 seconds if Kroolo is worth exploring further</span><span class="tag">The moment a prospect clicks 'Book a Demo' but abandons the form because they wanted to see the product first</span><span class="tag">Blog reader finishing an article on AI-native vs AI-enabled tools and wanting to see the difference live</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Rivia can provide Kroolo with embeddable, self-serve interactive demos on their homepage, landing pages, and blog posts — capturing intent from visitors who are curious but not yet ready for a live call. This directly addresses the gap between 'Book a Demo' and the prospect's desire to experience the product immediately.
+            </div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Consideration</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Prospect compares Kroolo to ClickUp, Asana, Monday, Notion, and other AI-enhanced PM tools</li><li>Prospect evaluates whether Kroolo's AI agents, enterprise search, and unified platform justify switching costs</li><li>Prospect shares Kroolo with internal stakeholders who need to understand the 3-product platform (Work, Search, Agents)</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Kroolo competes against heavily funded, well-known incumbents (ClickUp $400M+, Asana, Monday) — differentiation must be felt, not just stated</li><li>The 3-product architecture (Kroolo Work, Kroolo Search, Kroolo Agents) is powerful but complex to explain in static comparison pages</li><li>Internal champions at prospect companies struggle to relay Kroolo's unique value to decision-makers without a live demo</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">The side-by-side comparison moment when a buyer is evaluating Kroolo against ClickUp or Notion and needs to see Kroolo's AI-native difference</span><span class="tag">When an internal champion shares Kroolo with their VP or CFO and needs a self-explanatory asset that sells without a rep present</span><span class="tag">When a prospect on the free Starter plan is considering upgrading and wants to understand what Plus/Business/Enterprise unlocks</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Rivia enables Kroolo to build multi-flow interactive demos that let prospects self-navigate through Work, Search, and Agents use cases — creating an 'aha moment' pipeline that static screenshots and videos cannot match. These demos become shareable champion assets that sell internally without a Kroolo rep in the room.
+            </div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Decision</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Prospect books and attends a personalized 1-on-1 demo with Kroolo's solutions team</li><li>Procurement or IT evaluates security (SOC2, HIPAA, GDPR, SSO, SCIM) and integration compatibility</li><li>Decision-maker compares total cost of replacing 3-10 existing tools with Kroolo's per-user pricing</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Kroolo's sales team is likely lean given the company's stage — every live demo consumes scarce AE time on prospects who may not be qualified</li><li>Enterprise buyers need to see security, governance, and data residency capabilities but scheduling a second deep-dive demo adds friction</li><li>Multi-stakeholder deals stall when only one person saw the live demo and others need to 'see it to believe it' before signing off</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">The post-demo follow-up email where the prospect needs a leave-behind asset to socialize internally</span><span class="tag">The CFO asking 'show me what this looks like' before approving the switch from existing tools</span><span class="tag">The IT security review where a self-serve demo of governance features accelerates approval</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Rivia gives Kroolo's sales team the ability to send personalized, trackable interactive demos as follow-ups after live calls — enabling multi-stakeholder socialization without requiring additional live demo slots. This directly multiplies the effective capacity of Kroolo's lean sales team.
+            </div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Onboarding</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>New customer migrates data from existing tools (ClickUp, Asana, Jira, Notion) using Kroolo's 40+ integrations</li><li>Team members are onboarded to Kroolo's unified workspace and trained on AI agents and enterprise search</li><li>Customer success works with the account to configure custom workflows, AI agents, and permissions</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Kroolo replaces multiple tools simultaneously — onboarding complexity is high and adoption risk is real</li><li>Training materials (videos, docs) are passive and don't simulate the actual product experience for new users</li><li>Kroolo's blog mentions onboarding a remote team to a new OS in 5 minutes — but without interactive walkthroughs, this aspiration is hard to deliver</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">First-week experience where new users must quickly understand how projects, search, and AI agents work together</span><span class="tag">The moment an admin configures their first AI agent and needs guided, step-by-step product education</span><span class="tag">When a team lead needs to train 20+ people on Kroolo without scheduling 20 live training sessions</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Rivia-powered interactive walkthroughs can serve as scalable onboarding and training assets — letting Kroolo's CS team build self-serve product education that reduces time-to-value and support ticket volume. This is especially powerful for Kroolo's enterprise accounts with hundreds of users.
+            </div>
+          </div>
+        </div>
+        <div class="journey-stage">
+          <div class="stage-head">Expansion</div>
+          <div class="stage-body">
+            <p class="stage-label">Key Actions</p>
+            <ul><li>Existing customers discover and adopt new Kroolo capabilities (e.g., Enterprise Search, new AI agents)</li><li>Account grows from Plus to Business to Enterprise tier as team size and feature needs expand</li><li>Customer advocates for Kroolo internally, driving department-level or company-wide rollout</li></ul>
+            <p class="stage-label">Pains</p>
+            <ul><li>Feature adoption beyond core project management is often low — users don't know Kroolo Search or AI Agents exist or how to use them</li><li>Upselling from Plus ($25/user/mo) to Business ($35/user/mo) or Enterprise requires demonstrating incremental value of advanced features</li><li>Kroolo's 180+ features and 50+ AI agents create a discovery problem — customers only use what they initially learned</li></ul>
+            <p class="stage-label">Moments That Matter</p>
+            <div class="moments"><span class="tag">Quarterly business review where CSM needs to show underutilized features and drive expansion conversation</span><span class="tag">When Kroolo launches a new capability (e.g., Enterprise Search announced March 2026) and needs to drive adoption across existing accounts</span><span class="tag">When a team lead in a new department at an existing customer needs to evaluate Kroolo for their use case</span></div>
+            <div class="seller-opp">
+              <strong>Seller opportunity:</strong>
+              Rivia enables Kroolo to build feature-specific interactive demos for in-app or email-triggered product education — driving feature adoption, reducing churn risk, and creating natural upsell moments. Each new feature launch becomes a self-serve discovery experience rather than a CSM bottleneck.
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- VALUE CALCULATOR -->
+  <div class="card">
+    <div class="card-title">Value Calculator &middot; 3 Levers</div>
+    <div class="vc-uc"><strong>Use Case:</strong> Kroolo uses Rivia to create self-serve interactive product demos that convert more website visitors into qualified pipeline, enable multi-stakeholder deal socialization without additional AE time, and scale onboarding across their expanding enterprise customer base — so their lean go-to-market team can punch above its weight during a critical upmarket pivot.</div>
+    
+        <div class="lever">
+          <div class="lever-num">1</div>
+          <div class="lever-body">
+            <div class="lever-name">Website Visitor-to-Pipeline Conversion Lift</div>
+            <div class="lever-desc">Kroolo's current website funnels all product exploration through 'Book a Demo' forms. Adding self-serve interactive demos on the homepage, pricing page, and blog posts captures visitors who want to experience the product before committing to a call — converting previously lost traffic into qualified leads.</div>
+            <div class="lever-assumption">
+              <span class="badge hyp">HYPOTHESIS</span>Assuming Kroolo gets 8,000–15,000 monthly website visitors, current form conversion is ~2%, and interactive demos lift conversion by 30–50% based on industry benchmarks for PLG-adjacent SaaS companies.
+            </div>
+            <div class="lever-est">30–60 additional qualified leads per month, translating to 3–6 additional closed deals per quarter at an estimated $3,000–$10,000 ACV = $9,000–$60,000 incremental quarterly revenue</div>
+          </div>
+        </div>
+        <div class="lever">
+          <div class="lever-num">2</div>
+          <div class="lever-body">
+            <div class="lever-name">Sales Team Capacity Multiplication</div>
+            <div class="lever-desc">Kroolo's sales team is likely small (estimated 2–5 AEs) handling personalized 1-on-1 demos. Shareable, trackable Rivia demos as post-call leave-behinds enable multi-stakeholder socialization without requiring additional live demo slots — effectively multiplying each AE's deal capacity.</div>
+            <div class="lever-assumption">
+              <span class="badge hyp">HYPOTHESIS</span>Assuming each AE currently runs 6–10 live demos per week and 40% of deals stall because secondary stakeholders haven't seen the product. Rivia demos reduce 'second demo' requests by 50%, freeing 3–5 hours per AE per week.
+            </div>
+            <div class="lever-est">15–25 additional hours of AE selling time per month across the team, enabling 2–4 additional deals per quarter worth $6,000–$40,000 in incremental revenue. Sales cycle compression of 15–25% on multi-stakeholder deals.</div>
+          </div>
+        </div>
+        <div class="lever">
+          <div class="lever-num">3</div>
+          <div class="lever-body">
+            <div class="lever-name">Onboarding Scalability & Feature Adoption for Enterprise Expansion</div>
+            <div class="lever-desc">As Kroolo pivots upmarket to enterprise accounts (500+ users, SSO, SCIM, data residency), onboarding and feature adoption at scale becomes critical. Interactive walkthroughs reduce CS burden, accelerate time-to-value, and drive adoption of underutilized features like Enterprise Search and AI Agents — directly impacting net revenue retention.</div>
+            <div class="lever-assumption">
+              <span class="badge hyp">HYPOTHESIS</span>Assuming Kroolo onboards 5–10 new enterprise accounts per quarter with 50–200 users each. Current onboarding requires 3–5 hours of CSM time per account. Rivia walkthroughs reduce this by 40% and improve feature adoption rates by 20%.
+            </div>
+            <div class="lever-est">60–200 CSM hours saved per quarter. Improved feature adoption drives 10–15% higher NRR through upsell from Plus to Business/Enterprise tiers = $15,000–$50,000 in retained and expanded revenue per quarter.</div>
+          </div>
+        </div>
+    <div class="value-total">
+      <div>
+        <div class="vt-label">Estimated Value Range</div>
+        <div style="font-size:11px;color:var(--muted)">Conservative &middot; Assumption-Labeled</div>
+      </div>
+      <div class="vt-number">$30,000–$150,000 in incremental quarterly impact across pipeline generation, sales efficiency, and enterprise retention/expansion — against a Rivia investment likely in the $2,000–$6,000/year range, yielding an estimated 5–25x ROI.</div>
+    </div>
+    <div class="vc-caveat">All figures are conservative estimates based on public benchmarks. Validate before presenting.</div>
+  </div>
+
+  <!-- CHAMPION PACK TEASER -->
+  <div class="champ">
+    <div class="champ-label">Champion Pack</div>
+    <div class="champ-headline">How Kroolo Can Convert 3x More Website Visitors Into Pipeline and Scale Enterprise Onboarding — Without Hiring More AEs or CSMs — During Its Critical Enterprise AI Platform Pivot</div>
+    <div class="champ-summary">Kroolo just announced its transformation into a full-scale Enterprise AI platform (March 2026) — the most consequential GTM moment in the company's history. This pivot means they're now selling a more complex, multi-product platform (Work + Search + Agents) to larger, more demanding buyers with multi-stakeholder buying committees. Their current demo motion — 100% live, 1-on-1, sales-led — won't scale to meet this moment. Rivia gives Kroolo the ability to: (1) let enterprise prospects experience the platform's three pillars self-serve before booking a call, (2) arm internal champions with shareable, interactive assets that sell to CFOs and IT without a Kroolo rep present, and (3) onboard hundreds of enterprise users per account without linearly scaling CSM headcount. The timing is ideal — Kroolo needs this infrastructure now, before their enterprise pipeline outgrows their team's capacity to serve it.</div>
+    <div class="champ-kpis">
+      <div class="champ-label" style="margin-bottom:8px">KPIs &amp; Success Metrics</div>
+      <span class="tag">Website visitor-to-demo-request conversion rate (current vs. with embedded interactive demos)</span><span class="tag">Average sales cycle length for multi-stakeholder enterprise deals</span><span class="tag">CSM hours per enterprise account onboarded and feature adoption rate across Work, Search, and Agents</span><span class="tag">30–50% increase in qualified demo requests from website within 90 days of deploying interactive demos on homepage and pricing page</span><span class="tag">20% reduction in average enterprise sales cycle length through self-serve stakeholder enablement assets</span><span class="tag">40% reduction in per-account onboarding CSM time and 20% improvement in AI Agents and Enterprise Search feature activation within first 60 days</span>
+    </div>
+    <div class="champ-label" style="margin-bottom:10px">
+      Run this live in the workshop to co-build the full champion pack
+    </div>
+    <span class="run-live">&#9654; Run This Live in the Room</span>
+  </div>
+
+  <!-- QUESTIONS TO VALIDATE -->
+  <div class="card">
+    <div class="card-title">Questions to Validate in the Room</div>
+    <ul class="q-list">
+      <li><span class="q-dot">?</span>What does your current website-to-demo funnel look like? What percentage of visitors who hit your homepage or pricing page actually book a demo — and what's your hypothesis on why the rest drop off?</li><li><span class="q-dot">?</span>How many AEs or solutions consultants are currently running live personalized demos, and how many demos per week is each person doing? Is demo capacity a bottleneck today or do you see it becoming one as you push upmarket?</li><li><span class="q-dot">?</span>You just announced the Enterprise AI platform pivot — how is your enterprise pipeline shaping up? Are you seeing longer sales cycles or more stakeholders involved compared to your SMB motion?</li><li><span class="q-dot">?</span>When a champion inside a prospect organization wants to socialize Kroolo internally, what assets do you give them today? How often do deals stall because a decision-maker who wasn't on the original demo needs to 'see it' before approving?</li><li><span class="q-dot">?</span>As you onboard enterprise accounts with 50–500 users, what does that process look like today? How much CSM time goes into training, and are you seeing adoption challenges with your newer capabilities like Enterprise Search and AI Agents?</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>PauliBot &middot; Powered by Paulina&rsquo;s MMP Framework</strong>
+  <span>All hypotheses must be validated in the room. ROI figures are conservative estimates. Generated March 23, 2026.</span>
+</div>
+
+</body>
+</html>
